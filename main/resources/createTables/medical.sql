@@ -1,0 +1,1 @@
+CREATE TABLE medical ( med_id NUMBER(20) PRIMARY KEY, med_date DATE NOT NULL, med_status NUMBER(1) NOT NULL CONSTRAINT med_status_check CHECK(med_status BETWEEN 0 AND 2))

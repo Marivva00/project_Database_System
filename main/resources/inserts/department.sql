@@ -1,0 +1,6 @@
+INSERT INTO department(dep_name) VALUES ('pilots')
+INSERT INTO department(dep_name) VALUES ('dispatchers')
+INSERT INTO department(dep_name) VALUES ('techniques')
+INSERT INTO department(dep_name) VALUES ('cashiers')
+INSERT INTO department(dep_name) VALUES ('security guards')
+INSERT INTO department(dep_name) VALUES ('reference workers')

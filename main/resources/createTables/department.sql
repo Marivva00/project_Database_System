@@ -1,0 +1,1 @@
+CREATE TABLE department (dep_id NUMBER(15) PRIMARY KEY, dep_name VARCHAR(50) UNIQUE NOT NULL )

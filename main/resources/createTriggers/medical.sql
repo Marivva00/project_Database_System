@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_medical BEFORE INSERT ON medical FOR EACH ROW BEGIN SELECT seq_inc_medical.NextVal INTO :new.MED_ID FROM dual; END;

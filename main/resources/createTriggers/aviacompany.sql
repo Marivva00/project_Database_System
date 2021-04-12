@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_aviacompany BEFORE INSERT ON aviacompany FOR EACH ROW BEGIN SELECT seq_inc_aviacompany.NextVal INTO :new.AVIACOMP_ID FROM dual; END;

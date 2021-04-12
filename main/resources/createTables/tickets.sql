@@ -1,0 +1,1 @@
+CREATE TABLE tickets (ticket_id NUMBER(15) PRIMARY KEY, trip_id NUMBER(20) NOT NULL, ticket_seat_num NUMBER(3) NOT NULL, ticket_class_id NUMBER(1) NOT NULL, aviacomp_id NUMBER(5) NOT NULL, FOREIGN KEY (trip_id) REFERENCES trips (trip_id), FOREIGN KEY (ticket_class_id) REFERENCES ticketClass (ticket_class_id), FOREIGN KEY (aviacomp_id) REFERENCES aviacompany (aviacomp_id))

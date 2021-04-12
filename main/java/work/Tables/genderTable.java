@@ -26,7 +26,7 @@ public class genderTable extends JFrame {
         addRecord = new JButton("add record");
         //delRecord = new JButton("delete record");
 
-        addActionListeners(conn);
+        //addActionListeners(conn);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -47,7 +47,7 @@ public class genderTable extends JFrame {
         add(mainPanel);
         setVisible(true);
     }
-    private void addActionListeners(Connection conn){
+    /*private void addActionListeners(Connection conn){
         goBack.addActionListener((e)->{
             setVisible(false);
             new MainMenuWindow(conn);
@@ -65,8 +65,8 @@ public class genderTable extends JFrame {
         /*delRecord.addActionListener((e)->{
             setVisible(false);
             new deleteRecord(conn, "gender", "gen_id");
-        });*/
-    }
+        });
+    }*/
     private void executeAndGetResult(Connection conn, String sqlSelect) {
         columnNames = new Vector();
         columnNames.add("gen_id");

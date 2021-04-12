@@ -1,0 +1,1 @@
+CREATE TABLE aviacompany (aviacomp_id NUMBER(5) PRIMARY KEY, aviacomp_name VARCHAR(50) UNIQUE NOT NULL )

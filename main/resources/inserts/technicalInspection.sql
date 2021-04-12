@@ -1,0 +1,7 @@
+INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('01.01.2021','dd.mm.yyyy'), 8, 20, 1)
+INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('18.03.2021','dd.mm.yyyy'), 8, 10, 1)
+INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('18.03.2021','dd.mm.yyyy'), 9, 6, 1)
+INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('18.03.2021','dd.mm.yyyy'), 9, 43, 0)
+INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('01.04.2021','dd.mm.yyyy'), 8, 28, 1)
+INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('14.02.2021','dd.mm.yyyy'), 9, 11, 1)
+INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('20.01.2021','dd.mm.yyyy'), 9, 9, 1)

@@ -13,7 +13,10 @@ import java.util.*;
 public class SuccessConnectionInfoWindow extends JFrame {
     private JLabel success;
     private JButton ok;
-    private static final String[] tableNames = {"gender.sql", "department.sql", "medical.sql", "carriage.sql", "workers.sql"};
+    private static final String[] tableNames = {"gender.sql", "department.sql", "medical.sql", "aviacompany.sql",
+            "ticketClass.sql", "tripStatus.sql", "tripType.sql", "airport.sql", "carriage.sql", "workers.sql",
+            "technicalInspection.sql", "planes.sql", "trips.sql", "timetable.sql", "tickets.sql", "reserveTickets.sql",
+            "passengers.sql"};
     private List<String> tableNamesList = new LinkedList<>();
     public SuccessConnectionInfoWindow(Connection conn){
         super("Authorisation");

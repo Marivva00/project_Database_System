@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_passengers BEFORE INSERT ON passengers FOR EACH ROW BEGIN SELECT seq_inc_passengers.NextVal INTO :new.PASSENGER_ID FROM dual; END;

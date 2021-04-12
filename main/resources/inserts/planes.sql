@@ -1,0 +1,7 @@
+INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('Airbus A380-800', 1, 525, 2, 0, 0, 0)
+INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('Airbus A320-200', 2, 150, 2, 12, 2, 2)
+INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('Embraer ERJ 190', 3, 114, 1, 16, 1, 3)
+INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('Bombardier CRJ900', 4, 90, 5, 7, 6, 1)
+INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('Boeing B747-8i', 5, 467, 7, 10, 2, 5)
+INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('Boeing B747-400', 6, 624, 11, 5, 5, 10)
+INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('Junkers Ju 52', 7, 17, 8, 2, 1, 11)

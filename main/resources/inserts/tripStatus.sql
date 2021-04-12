@@ -1,0 +1,5 @@
+INSERT INTO tripStatus(trip_status_name, trip_status_reason) VALUES ('postponed', 'bed weather conditions')
+INSERT INTO tripStatus(trip_status_name, trip_status_reason) VALUES ('postponed', 'technical problems')
+INSERT INTO tripStatus(trip_status_name, trip_status_reason) VALUES ('cancelled', 'no tickets sold below the set minimum')
+INSERT INTO tripStatus(trip_status_name) VALUES ('cancelled')
+INSERT INTO tripStatus(trip_status_name) VALUES ('on schedule')

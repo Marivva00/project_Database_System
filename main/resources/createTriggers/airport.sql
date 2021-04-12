@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_airport BEFORE INSERT ON airport FOR EACH ROW BEGIN SELECT seq_inc_airport.NextVal INTO :new.AIRPORT_ID FROM dual; END;

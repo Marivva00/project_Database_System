@@ -1,0 +1,1 @@
+CREATE TABLE technicalInspection( ti_id NUMBER(20) PRIMARY KEY, ti_date DATE NOT NULL, worker_id NUMBER(20) NOT NULL, deg_of_wear NUMBER(3) NOT NULL, ti_result NUMBER(1) NOT NULL, CONSTRAINT deg CHECK(deg_of_wear BETWEEN 0 and 100), CONSTRAINT res CHECK(ti_result BETWEEN 0 and 1), FOREIGN KEY (worker_id) REFERENCES workers (worker_id))

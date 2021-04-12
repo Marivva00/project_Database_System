@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_reserveTickets BEFORE INSERT ON reserveTickets FOR EACH ROW BEGIN SELECT seq_inc_reserveTickets.NextVal INTO :new.RESERVE_ID FROM dual; END;

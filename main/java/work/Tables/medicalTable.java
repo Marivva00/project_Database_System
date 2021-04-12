@@ -21,7 +21,7 @@ public class medicalTable extends JFrame {
         lookOnTable = new JButton("look on table");
         goBack = new JButton("back");
 
-        addActionListeners(conn);
+        //addActionListeners(conn);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -36,7 +36,7 @@ public class medicalTable extends JFrame {
         add(mainPanel);
         setVisible(true);
     }
-    private void addActionListeners(Connection conn){
+    /*private void addActionListeners(Connection conn){
         goBack.addActionListener((e)->{
             setVisible(false);
             new MainMenuWindow(conn);
@@ -77,5 +77,5 @@ public class medicalTable extends JFrame {
                 exception.printStackTrace();
             }
         });
-    }
+    }*/
 }

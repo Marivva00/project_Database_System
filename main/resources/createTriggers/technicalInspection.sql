@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_ti BEFORE INSERT ON technicalInspection FOR EACH ROW BEGIN SELECT seq_inc_ti.NextVal INTO :new.TI_ID FROM dual; END;

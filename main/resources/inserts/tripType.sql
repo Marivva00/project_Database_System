@@ -1,0 +1,5 @@
+INSERT INTO tripType(trip_type_name) VALUES ('domestic')
+INSERT INTO tripType(trip_type_name) VALUES ('international')
+INSERT INTO tripType(trip_type_name) VALUES ('charter')
+INSERT INTO tripType(trip_type_name) VALUES ('cargo transportation')
+INSERT INTO tripType(trip_type_name) VALUES ('special flights')

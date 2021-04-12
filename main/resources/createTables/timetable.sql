@@ -1,0 +1,1 @@
+CREATE TABLE timetable (rec_id NUMBER(15) PRIMARY KEY, trip_id NUMBER(20) NOT NULL, trip_status_id NUMBER(2) NOT NULL, FOREIGN KEY (trip_id) REFERENCES trips (trip_id), FOREIGN KEY (trip_status_id) REFERENCES  tripStatus (trip_status_id))

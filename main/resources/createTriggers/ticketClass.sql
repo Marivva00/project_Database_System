@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_ticketClass BEFORE INSERT ON ticketClass FOR EACH ROW BEGIN SELECT seq_inc_ticketClass.NextVal INTO :new.TICKET_CLASS_ID FROM dual; END;

@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_tripStatus BEFORE INSERT ON tripStatus FOR EACH ROW BEGIN SELECT seq_inc_tripStatus.NextVal INTO :new.TRIP_STATUS_ID FROM dual; END;

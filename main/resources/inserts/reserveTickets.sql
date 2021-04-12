@@ -1,0 +1,7 @@
+INSERT INTO reserveTickets(ticket_id, is_paid, paid_date) VALUES(2, 1, TO_DATE('01.01.2021', 'dd.mm.yyyy'))
+INSERT INTO reserveTickets(ticket_id, is_paid) VALUES(6, 0)
+INSERT INTO reserveTickets(ticket_id, is_paid, paid_date) VALUES(33, 1, TO_DATE('12.01.2021', 'dd.mm.yyyy'))
+INSERT INTO reserveTickets(ticket_id, is_paid, paid_date) VALUES(13, 1, TO_DATE('12.01.2021', 'dd.mm.yyyy'))
+INSERT INTO reserveTickets(ticket_id, is_paid) VALUES(25, 0)
+INSERT INTO reserveTickets(ticket_id, is_paid) VALUES(22, 0)
+INSERT INTO reserveTickets(ticket_id, is_paid, paid_date) VALUES(18, 1, TO_DATE('07.02.2021', 'dd.mm.yyyy'))

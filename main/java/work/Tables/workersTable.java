@@ -26,7 +26,7 @@ public class workersTable extends JFrame {
         askWorkersFromSomeDepartment = new JButton("workers from some department");
         deleteRecord = new JButton("delete record by id");
 
-        addActionListeners(conn);
+        //addActionListeners(conn);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -47,7 +47,7 @@ public class workersTable extends JFrame {
         add(mainPanel);
         setVisible(true);
     }
-    private void addActionListeners(Connection conn){
+    /*private void addActionListeners(Connection conn){
         goBack.addActionListener((e)->{
             setVisible(false);
             new MainMenuWindow(conn);
@@ -68,7 +68,7 @@ public class workersTable extends JFrame {
             setVisible(false);
             new deleteRecordClass(conn, "workers", "worker_id");
         });
-    }
+    }*/
     private void executeAndGetResult(Connection conn, String sqlSelect){
         columnNames = new Vector();
         columnNames.add("worker_id");

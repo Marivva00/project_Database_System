@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_timetable BEFORE INSERT ON timetable FOR EACH ROW BEGIN SELECT seq_inc_timetable.NextVal INTO :new.REC_ID FROM dual; END;

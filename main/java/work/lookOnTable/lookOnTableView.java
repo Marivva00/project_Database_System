@@ -1,6 +1,7 @@
 package work.lookOnTable;
 
 import work.MainMenuWindow;
+import work.addRecords.addRecordsToTable;
 import work.errorInDelete.errorInDeleteRecord;
 
 import javax.swing.*;
@@ -89,7 +90,8 @@ public class lookOnTableView extends JFrame {
         getTable(conn, del, recordId);
     }
     private void addRecordToTable(Connection conn){
-
+        setVisible(false);
+        getTable(conn, add, null);
     }
     private void editRecordInTable(Connection conn){
 
@@ -164,6 +166,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM department WHERE dep_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM department";
                 generalSelect(conn, select);
@@ -188,6 +193,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM aviacompany WHERE aviacomp_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM aviacompany";
                 generalSelect(conn, select);
@@ -200,6 +208,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM ticketClass WHERE ticket_class_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM ticketClass";
                 generalSelect(conn, select);
@@ -224,6 +235,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM tripType WHERE trip_type_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM tripType";
                 generalSelect(conn, select);
@@ -236,6 +250,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM airport WHERE airport_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM airport";
                 generalSelect(conn, select);
@@ -248,6 +265,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM gender WHERE gen_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM gender";
                 generalSelect(conn, select);

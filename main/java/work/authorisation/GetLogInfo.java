@@ -12,8 +12,6 @@ import java.util.Properties;
 import java.util.TimeZone;
 
 public class GetLogInfo extends JFrame {
-    //private JLabel login;
-    //private JLabel password;
     private JTextField loginField;
     private JPasswordField passwordField;
     private JButton enter;

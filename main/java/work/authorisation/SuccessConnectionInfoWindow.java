@@ -114,19 +114,3 @@ public class SuccessConnectionInfoWindow extends JFrame {
         }
     }
 }
-    /*toCountRec.addActionListener((e) -> {
-            String sql = "SELECT COUNT (*) from departments";
-            PreparedStatement preStatement = null;
-            ResultSet result = null;
-            try {
-                preStatement = connection.prepareStatement(sql);
-                result = preStatement.executeQuery();
-                while (result.next()) {
-                    count = result.getInt(1);
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            countOfRec.setText("count of records: " + count);
-        });
-    }*/

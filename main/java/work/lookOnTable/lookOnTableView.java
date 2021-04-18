@@ -181,6 +181,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM medical WHERE med_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM medical";
                 generalSelect(conn, select);
@@ -223,6 +226,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM tripStatus WHERE trip_status_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT * FROM tripStatus";
                 generalSelect(conn, select);
@@ -280,6 +286,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM carriage WHERE car_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            }
             case 3:{
                 String select = "SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)";
                 generalSelect(conn, select);

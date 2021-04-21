@@ -1,1 +1,1 @@
-CREATE TABLE ticketClass (ticket_class_id NUMBER(1) PRIMARY KEY, ticket_class_name VARCHAR(20) UNIQUE NOT NULL )
+CREATE TABLE ticketClass (ticket_class_id NUMBER(1) PRIMARY KEY, ticket_class_name VARCHAR(40) UNIQUE NOT NULL )

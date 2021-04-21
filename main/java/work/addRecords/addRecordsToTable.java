@@ -50,7 +50,7 @@ public class addRecordsToTable extends JFrame {
     private Integer error = 0;
 
     public addRecordsToTable(Connection conn, Integer dep,  String tableName){
-        super("add record to table '" + tableName + "'");
+        super("Добавление записи в '" + tableName + "' таблицу");
         //setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -60,8 +60,8 @@ public class addRecordsToTable extends JFrame {
 
         getTable(conn, dep, tableName);
 
-        ok = new JButton("add");
-        back = new JButton("back");
+        ok = new JButton("Добавить запись");
+        back = new JButton("Назад");
         ok.addActionListener((e)->{
             setVisible(false);
             toDraw = 0;
@@ -86,24 +86,24 @@ public class addRecordsToTable extends JFrame {
         setSize(400, 200);
         setLocationRelativeTo(null);
 
-        JLabel label = new JLabel("Enter " + labelName + " here...");
+        JLabel label = new JLabel("Введите " + labelName + " здесь...");
 
         textField1 = new JTextField(20);
         Color colorLog = textField1.getCaretColor();
         textField1.setForeground(Color.LIGHT_GRAY);
-        textField1.setText("Enter " + labelName + " here...");
+        textField1.setText("Введите " + labelName + " здесь...");
         textField1.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent event){
                 textField1.setForeground(colorLog);
-                if (textField1.getText().equals("Enter " + labelName + " here..."))
+                if (textField1.getText().equals("Введите " + labelName + " здесь..."))
                     textField1.setText("");
             }
             @Override
             public void focusLost(FocusEvent event) {
                 if (textField1.getText().isEmpty()) {
                     textField1.setForeground(Color.LIGHT_GRAY);
-                    textField1.setText("Enter " + labelName + " here...");
+                    textField1.setText("Введите " + labelName + " здесь...");
                 }
             }
         });
@@ -143,18 +143,18 @@ public class addRecordsToTable extends JFrame {
     }
     private String getMonthNum(String month){
         switch (month){
-            case "January": return "01";
-            case "February": return "02";
-            case "March": return "03";
-            case "April": return "04";
-            case "May": return "05";
-            case "June": return "06";
-            case "July": return "07";
-            case "August": return "08";
-            case "September": return "09";
-            case "October": return "10";
-            case "November": return "11";
-            case "December": return "12";
+            case "Январь": return "01";
+            case "Февраль": return "02";
+            case "Март": return "03";
+            case "Апрель": return "04";
+            case "Май": return "05";
+            case "Июнь": return "06";
+            case "Июль": return "07";
+            case "Август": return "08";
+            case "Сентябрь": return "09";
+            case "Октябрь": return "10";
+            case "Ноябрь": return "11";
+            case "Декабрь": return "12";
         }
         return "0";
     }
@@ -206,7 +206,7 @@ public class addRecordsToTable extends JFrame {
 
     private void departmentTable(Connection conn){
         if (toDraw == 1)
-            simpleWindowWithOneLabel("department name");
+            simpleWindowWithOneLabel("название отдела");
         else {
             String departmentName = textField1.getText();
             String insert = "INSERT INTO department(dep_name) VALUES ('" + departmentName + "')";
@@ -218,17 +218,17 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 300);
             setLocationRelativeTo(null);
 
-            JLabel date = new JLabel("enter date of medical:");
+            JLabel date = new JLabel("Введите дату мед. осмотра:");
 
-            String months[] = { "January", "February", "March", "April", "May", "June", "July", "August",
-                               "September", "October", "November", "December" };
+            String months[] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
+                               "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
             spinDay1 = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
             spinMonth1 = new JSpinner(new SpinnerListModel(months));
             spinYear1 = new JSpinner(new SpinnerNumberModel(2021, 2021, 2100, 1));
 
-            JLabel result = new JLabel("result of medical:");
+            JLabel result = new JLabel("Результат мед. осмотра:");
 
-            resultBox1 = new JCheckBox("pass");
+            resultBox1 = new JCheckBox("пройден");
 
             JPanel dateLabelPanel = new JPanel();
             dateLabelPanel.add(date);
@@ -264,7 +264,7 @@ public class addRecordsToTable extends JFrame {
     }
     private void aviacompanyTable(Connection conn){
         if (toDraw == 1)
-            simpleWindowWithOneLabel("aviacompany name");
+            simpleWindowWithOneLabel("название авиакомпании");
         else {
             String aviacompanyName = textField1.getText();
             String insert = "INSERT INTO aviacompany(aviacomp_name) VALUES ('" + aviacompanyName + "')";
@@ -273,7 +273,7 @@ public class addRecordsToTable extends JFrame {
     }
     private void ticketClassTable(Connection conn){
         if (toDraw == 1)
-            simpleWindowWithOneLabel("ticket class name");
+            simpleWindowWithOneLabel("название класса билета");
         else {
             String ticketClassName = textField1.getText();
             String insert = "INSERT INTO ticketClass(ticket_class_name) VALUES ('" + ticketClassName + "')";
@@ -282,25 +282,25 @@ public class addRecordsToTable extends JFrame {
     }
     private void tripStatusTable(Connection conn){
         if (toDraw == 1){
-            simpleWindowWithOneLabel("trip status name");
-            JLabel label = new JLabel("Enter trip status reason here...");
+            simpleWindowWithOneLabel("название статуса рейса");
+            JLabel label = new JLabel("Введите причину данного статуса:");
 
             textField2 = new JTextField(20);
             Color colorLog = textField2.getCaretColor();
             textField2.setForeground(Color.LIGHT_GRAY);
-            textField2.setText("Enter trip status reason here...");
+            textField2.setText("Введите причину данного статуса...");
             textField2.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField2.setForeground(colorLog);
-                    if (textField2.getText().equals("Enter trip status reason here..."))
+                    if (textField2.getText().equals("Введите причину данного статуса..."))
                         textField2.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField2.getText().isEmpty()) {
                         textField2.setForeground(Color.LIGHT_GRAY);
-                        textField2.setText("Enter trip status reason here...");
+                        textField2.setText("Введите причину данного статуса...");
                     }
                 }
             });
@@ -315,7 +315,7 @@ public class addRecordsToTable extends JFrame {
         else{
             String tripStatusName = textField1.getText();
             String tripStatusReason = textField2.getText();
-            if (tripStatusReason.equals("Enter trip status reason here..."))
+            if (tripStatusReason.equals("Введите причину данного статуса..."))
                 tripStatusReason = "";
             String insert = "INSERT INTO tripStatus(trip_status_name, trip_status_reason) VALUES ('" + tripStatusName + "', '" + tripStatusReason + "')";
             insertIntoTable(conn, insert);
@@ -323,7 +323,7 @@ public class addRecordsToTable extends JFrame {
     }
     private void tripTypeTable(Connection conn){
         if (toDraw == 1)
-            simpleWindowWithOneLabel("trip type name");
+            simpleWindowWithOneLabel("название типа рейса");
         else {
             String tripTypeName = textField1.getText();
             String insert = "INSERT INTO tripType(trip_type_name) VALUES ('" + tripTypeName + "')";
@@ -332,7 +332,7 @@ public class addRecordsToTable extends JFrame {
     }
     private void airportTable(Connection conn){
         if (toDraw == 1)
-            simpleWindowWithOneLabel("airport name");
+            simpleWindowWithOneLabel("название аэропорта");
         else {
             String airportName = textField1.getText();
             String insert = "INSERT INTO airport(airport_name) VALUES ('" + airportName + "')";
@@ -341,7 +341,7 @@ public class addRecordsToTable extends JFrame {
     }
     private void genderTable(Connection conn){
         if (toDraw == 1)
-            simpleWindowWithOneLabel("gender name");
+            simpleWindowWithOneLabel("название пола");
         else {
             String genderName = textField1.getText();
             String insert = "INSERT INTO gender(gen_name) VALUES ('" + genderName + "')";
@@ -385,70 +385,70 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 700);
             setLocationRelativeTo(null);
 
-            JLabel fullNameLabel = new JLabel("Enter worker's full name:");
+            JLabel fullNameLabel = new JLabel("Введите полное имя работника:");
             textField1 = new JTextField(20);
             Color colorLog = textField1.getCaretColor();
             textField1.setForeground(Color.LIGHT_GRAY);
-            textField1.setText("Enter lastname here...");
+            textField1.setText("Введите фамилию...");
             textField1.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField1.setForeground(colorLog);
-                    if (textField1.getText().equals("Enter lastname here..."))
+                    if (textField1.getText().equals("Введите фамилию..."))
                         textField1.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField1.getText().isEmpty()) {
                         textField1.setForeground(Color.LIGHT_GRAY);
-                        textField1.setText("Enter lastname here...");
+                        textField1.setText("Введите фамилию...");
                     }
                 }
             });
             textField2 = new JTextField(20);
             textField2.setForeground(Color.LIGHT_GRAY);
-            textField2.setText("Enter firstname here...");
+            textField2.setText("Введите имя...");
             textField2.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField2.setForeground(colorLog);
-                    if (textField2.getText().equals("Enter firstname here..."))
+                    if (textField2.getText().equals("Введите имя..."))
                         textField2.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField2.getText().isEmpty()) {
                         textField2.setForeground(Color.LIGHT_GRAY);
-                        textField2.setText("Enter firstname here...");
+                        textField2.setText("Введите имя...");
                     }
                 }
             });
             textField3 = new JTextField(20);
             textField3.setForeground(Color.LIGHT_GRAY);
-            textField3.setText("Enter middle name here...");
+            textField3.setText("Введите отчество (при наличии)...");
             textField3.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField3.setForeground(colorLog);
-                    if (textField3.getText().equals("Enter middle name here..."))
+                    if (textField3.getText().equals("Введите отчество (при наличии)..."))
                         textField3.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField3.getText().isEmpty()) {
                         textField3.setForeground(Color.LIGHT_GRAY);
-                        textField3.setText("Enter middle name here...");
+                        textField3.setText("Введите отчество (при наличии)...");
                     }
                 }
             });
 
-            JLabel ageLabel = new JLabel("Enter worker's age:");
+            JLabel ageLabel = new JLabel("Введите возраст работника:");
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
             numberField1 = new JFormattedTextField(numberFormat);
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(2);
 
-            JLabel genderLabel = new JLabel("Choose gender:");
+            JLabel genderLabel = new JLabel("Выберите пол:");
             String select = "SELECT * FROM gender";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
@@ -456,12 +456,12 @@ public class addRecordsToTable extends JFrame {
 
             comboBox1 = new JComboBox(strings1);
 
-            JLabel childLabel = new JLabel("Enter worker's child count:");
+            JLabel childLabel = new JLabel("Введите количество детей у работника:");
             numberField2 = new JFormattedTextField(numberFormat);
             numberField2.setValue(new Integer(0));
             numberField2.setColumns(2);
 
-            JLabel carriageLabel = new JLabel("Enter worker's carriage number");
+            JLabel carriageLabel = new JLabel("Выберите бригаду работника:");
             select = "SELECT car_id FROM carriage";
             resultSet = selectFromTable(conn, select);
             strings2 = new Vector();
@@ -480,7 +480,7 @@ public class addRecordsToTable extends JFrame {
 
             comboBox2 = new JComboBox(strings2);
 
-            JLabel medicalLabel = new JLabel("Enter worker's medical (if necessary):");
+            JLabel medicalLabel = new JLabel("Выберите номер мед. осмотра работника (если необходимо):");
             select = "SELECT med_id FROM medical";
             resultSet = selectFromTable(conn, select);
             strings3 = new Vector();
@@ -542,8 +542,8 @@ public class addRecordsToTable extends JFrame {
             String lastname = textField1.getText();
             String firstname = textField2.getText();
             String middlename = textField3.getText();
-            checkText(lastname, "Enter lastname here...");
-            checkText(firstname, "Enter firstname here...");
+            checkText(lastname, "Введите фамилию...");
+            checkText(firstname, "Введите имя...");
             if (error == 1)
                 System.out.println("error");            //окно ошибки
             String age = numberField1.getValue().toString();
@@ -557,12 +557,12 @@ public class addRecordsToTable extends JFrame {
 
             String insert = null;
             if (medicalID[0].substring(1, medicalID[0].length() - 1).equals("none")){
-                if (middlename.equals("Enter middle name here..."))
+                if (middlename.equals("Введите отчество (при наличии)..."))
                     insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_age, gen_id, worker_child_count, car_id) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ")";
                 else
                     insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ")";
             } else {
-                if (middlename.equals("Enter middle name here..."))
+                if (middlename.equals("Введите отчество (при наличии)..."))
                     insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + medicalID[0].substring(1, medicalID[0].length()- 1) + ")";
                 else
                     insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + medicalID[0].substring(1, medicalID[0].length()- 1) + ")";
@@ -576,29 +576,29 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 300);
             setLocationRelativeTo(null);
 
-            JLabel date = new JLabel("Enter date of technical inspection:");
+            JLabel date = new JLabel("Введите дату тех. осмотра:");
 
-            String months[] = { "January", "February", "March", "April", "May", "June", "July", "August",
-                    "September", "October", "November", "December" };
+            String months[] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
+                    "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
             spinDay1 = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
             spinMonth1 = new JSpinner(new SpinnerListModel(months));
             spinYear1 = new JSpinner(new SpinnerNumberModel(2021, 2021, 2100, 1));
 
-            JLabel workerIDLabel = new JLabel("Enter worker's ID");
+            JLabel workerIDLabel = new JLabel("Выберите ИД работника:");
             String select = "WITH S1 AS(SELECT car_id FROM carriage WHERE dep_id = 3) SELECT worker_id FROM workers JOIN S1 USING(car_id)";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
             comboBox1 = new JComboBox(strings1);
 
-            JLabel degOfWearLabel = new JLabel("Enter plane's degree of wear:");
+            JLabel degOfWearLabel = new JLabel("Введите степень износки самолёта:");
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
             numberField1 = new JFormattedTextField(numberFormat);
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(3);
 
-            JLabel result = new JLabel("Result of technical inspection:");
-            resultBox1 = new JCheckBox("pass");
+            JLabel result = new JLabel("Результат тех. осмотра:");
+            resultBox1 = new JCheckBox("пройден");
 
             JPanel dateLabelPanel = new JPanel();
             dateLabelPanel.add(date);
@@ -652,42 +652,42 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 500);
             setLocationRelativeTo(null);
 
-            JLabel label = new JLabel("Enter plane type:");
+            JLabel label = new JLabel("Введите тип самолёта:");
 
             textField1 = new JTextField(20);
             Color colorLog = textField1.getCaretColor();
             textField1.setForeground(Color.LIGHT_GRAY);
-            textField1.setText("Enter plane type:");
+            textField1.setText("Введите тип самолёта...");
             textField1.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField1.setForeground(colorLog);
-                    if (textField1.getText().equals("Enter plane type:"))
+                    if (textField1.getText().equals("Введите тип самолёта..."))
                         textField1.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField1.getText().isEmpty()) {
                         textField1.setForeground(Color.LIGHT_GRAY);
-                        textField1.setText("Enter plane type:");
+                        textField1.setText("Введите тип самолёта...");
                     }
                 }
             });
 
-            JLabel tiLabel = new JLabel("Choose technical inspection ID:");
+            JLabel tiLabel = new JLabel("Выберите номер тех. сомотра:");
             String select = "SELECT ti_id FROM technicalInspection";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
             comboBox1 = new JComboBox(strings1);
 
-            JLabel passengersLabel = new JLabel("Enter plane's passengers capacity:");
+            JLabel passengersLabel = new JLabel("Введите пассажировместимость самолёта:");
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
             numberField1 = new JFormattedTextField(numberFormat);
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(4);
 
-            JLabel airportLabel = new JLabel("Choose plane's airport:");
+            JLabel airportLabel = new JLabel("Выберите аэропорт самолёта:");
             select = "SELECT * FROM airport";
             resultSet = selectFromTable(conn, select);
             strings2 = new Vector();
@@ -705,17 +705,17 @@ public class addRecordsToTable extends JFrame {
             }
             comboBox2 = new JComboBox(strings2);
 
-            JLabel tripLabel = new JLabel("Enter plane's trip count:");
+            JLabel tripLabel = new JLabel("Введите количество полётов:");
             numberField2 = new JFormattedTextField(numberFormat);
             numberField2.setValue(new Integer(0));
             numberField2.setColumns(4);
 
-            JLabel repairingLabel = new JLabel("Enter plane's repairing count:");
+            JLabel repairingLabel = new JLabel("Введите количество починок:");
             numberField3 = new JFormattedTextField(numberFormat);
             numberField3.setValue(new Integer(0));
             numberField3.setColumns(2);
 
-            JLabel ageLabel = new JLabel("Enter plane's age:");
+            JLabel ageLabel = new JLabel("Введите возраст самолёта:");
             numberField4 = new JFormattedTextField(numberFormat);
             numberField4.setValue(new Integer(0));
             numberField4.setColumns(2);
@@ -779,89 +779,89 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 700);
             setLocationRelativeTo(null);
 
-            JLabel plane = new JLabel("Enter plane ID:");
+            JLabel plane = new JLabel("Выберите ИД самолёта:");
             String select = "SELECT plane_id FROM planes";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
             comboBox1 = new JComboBox(strings1);
 
-            JLabel dateDepart = new JLabel("Enter depart date and time:");
-            String months[] = { "January", "February", "March", "April", "May", "June", "July", "August",
-                    "September", "October", "November", "December" };
+            JLabel dateDepart = new JLabel("Введите дату и время отлёта:");
+            String months[] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
+                    "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
             spinDay1 = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
             spinMonth1 = new JSpinner(new SpinnerListModel(months));
             spinYear1 = new JSpinner(new SpinnerNumberModel(2021, 2021, 2100, 1));
             spinHour1 = new JSpinner(new SpinnerNumberModel(00, 00, 23, 1));
             spinMinute1 = new JSpinner(new SpinnerNumberModel(00, 00, 59, 1));
 
-            JLabel dateArrival = new JLabel("Enter arrival date and time:");
+            JLabel dateArrival = new JLabel("Введите дату и время прилёта:");
             spinDay2 = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
             spinMonth2 = new JSpinner(new SpinnerListModel(months));
             spinYear2 = new JSpinner(new SpinnerNumberModel(2021, 2021, 2100, 1));
             spinHour2 = new JSpinner(new SpinnerNumberModel(00, 00, 23, 1));
             spinMinute2 = new JSpinner(new SpinnerNumberModel(00, 00, 59, 1));
 
-            JLabel departPlaceLabel = new JLabel("Enter depart place:");
+            JLabel departPlaceLabel = new JLabel("Введите место отправления:");
             textField1 = new JTextField(20);
             Color colorLog = textField1.getCaretColor();
             textField1.setForeground(Color.LIGHT_GRAY);
-            textField1.setText("Enter depart place here...");
+            textField1.setText("Введите место отправления...");
             textField1.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField1.setForeground(colorLog);
-                    if (textField1.getText().equals("Enter depart place here..."))
+                    if (textField1.getText().equals("Введите место отправления..."))
                         textField1.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField1.getText().isEmpty()) {
                         textField1.setForeground(Color.LIGHT_GRAY);
-                        textField1.setText("Enter depart place here...");
+                        textField1.setText("Введите место отправления...");
                     }
                 }
             });
-            JLabel planeChangePlaceLabel = new JLabel("Enter plane change place:");
+            JLabel planeChangePlaceLabel = new JLabel("Введите место пересадки (если имеется):");
             textField2 = new JTextField(20);
             textField2.setForeground(Color.LIGHT_GRAY);
-            textField2.setText("Enter plane change here...");
+            textField2.setText("Введите место пересадки (если имеется)...");
             textField2.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField2.setForeground(colorLog);
-                    if (textField2.getText().equals("Enter plane change here..."))
+                    if (textField2.getText().equals("Введите место пересадки (если имеется)..."))
                         textField2.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField2.getText().isEmpty()) {
                         textField2.setForeground(Color.LIGHT_GRAY);
-                        textField2.setText("Enter plane change here...");
+                        textField2.setText("Введите место пересадки (если имеется)...");
                     }
                 }
             });
-            JLabel arrivalPLaceLabel = new JLabel("Enter arrival place:");
+            JLabel arrivalPLaceLabel = new JLabel("Введите место назначения:");
             textField3 = new JTextField(20);
             textField3.setForeground(Color.LIGHT_GRAY);
-            textField3.setText("Enter arrival place here...");
+            textField3.setText("Введите место назначения...");
             textField3.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField3.setForeground(colorLog);
-                    if (textField3.getText().equals("Enter arrival place here..."))
+                    if (textField3.getText().equals("Введите место назначения..."))
                         textField3.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField3.getText().isEmpty()) {
                         textField3.setForeground(Color.LIGHT_GRAY);
-                        textField3.setText("Enter arrival place here...");
+                        textField3.setText("Введите место назначения...");
                     }
                 }
             });
 
-            JLabel tripTypeLabel = new JLabel("Choose trip's type:");
+            JLabel tripTypeLabel = new JLabel("Выберите тип рейса:");
             select = "SELECT * FROM tripType";
             resultSet = selectFromTable(conn, select);
             strings2 = new Vector();
@@ -879,7 +879,7 @@ public class addRecordsToTable extends JFrame {
             }
             comboBox2 = new JComboBox(strings2);
 
-            JLabel carriageLabel = new JLabel("Choose trip's carriage:");
+            JLabel carriageLabel = new JLabel("Выберите обслуживающую бригаду:");
             select = "SELECT car_id FROM carriage";
             resultSet = selectFromTable(conn, select);
             strings3 = new Vector();
@@ -897,23 +897,23 @@ public class addRecordsToTable extends JFrame {
             }
             comboBox3 = new JComboBox(strings3);
 
-            JLabel purchasedTicketsLabel = new JLabel("Enter purchased count of tickets:");
+            JLabel purchasedTicketsLabel = new JLabel("Введите количество проданных билетов:");
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
             numberField1 = new JFormattedTextField(numberFormat);
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(4);
 
-            JLabel surfoldTicketsLabel = new JLabel("Enter surfold count of tickets:");
+            JLabel surfoldTicketsLabel = new JLabel("Введите минимально необходимое количество билетов:");
             numberField2 = new JFormattedTextField(numberFormat);
             numberField2.setValue(new Integer(0));
             numberField2.setColumns(4);
 
-            JLabel reserveTicketsLabel = new JLabel("Enter reserve count of tickets:");
+            JLabel reserveTicketsLabel = new JLabel("Введите количество забронированных билетов:");
             numberField3 = new JFormattedTextField(numberFormat);
             numberField3.setValue(new Integer(0));
             numberField3.setColumns(4);
 
-            JLabel ticketCostLabel = new JLabel("Enter cost of tickets:");
+            JLabel ticketCostLabel = new JLabel("Введите стоимость билета:");
             numberField4 = new JFormattedTextField(numberFormat);
             numberField4.setValue(new Integer(0));
             numberField4.setColumns(4);
@@ -1012,7 +1012,7 @@ public class addRecordsToTable extends JFrame {
             String cost = numberField4.getValue().toString();
 
             String insert = null;
-            if (changePlace.equals("Enter plane change here..."))
+            if (changePlace.equals("Введите место пересадки (если имеется)..."))
                 insert = "INSERT INTO trips(plane_id, depart_time, arrival_time, depart_place, arrival_place, trip_type_id, car_id, purchased_count_tickets, surfold_count_tickets, reserve_count_tickets, ticket_cost) VALUES(" + planeID[0].substring(1, planeID[0].length()- 1) + ", TO_DATE('" + getDay(dayDep) + "." + getMonthNum(monthDep) + "." + yearDep + " " + hourDep + ":" + minuteDep + ":00','dd.mm.yyyy hh24:mi:ss'), TO_DATE('" + getDay(dayArr) + "." + getMonthNum(monthArr) + "." + yearArr + " " +  hourArr+ ":" + minuteArr + ":00','dd.mm.yyyy hh24:mi:ss'), '" + departPlace + "', '" + arrivalPlace + "', " + tripTypeID[0].substring(1, tripTypeID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + purchased + ", " + surfold + ", " + reserve + ", " + cost + ")";
             else
                 insert = "INSERT INTO trips(plane_id, depart_time, arrival_time, depart_place, plane_change_place, arrival_place, trip_type_id, car_id, purchased_count_tickets, surfold_count_tickets, reserve_count_tickets, ticket_cost) VALUES(" + planeID[0].substring(1, planeID[0].length()- 1) + ", TO_DATE('" + getDay(dayDep) + "." + getMonthNum(monthDep) + "." + yearDep + " " + hourDep + ":" + minuteDep + ":00','dd.mm.yyyy hh24:mi:ss'), TO_DATE('" + getDay(dayArr) + "." + getMonthNum(monthArr) + "." + yearArr + " " +  hourArr+ ":" + minuteArr + ":00','dd.mm.yyyy hh24:mi:ss'), '" + departPlace + "', '" + changePlace + "', '" + arrivalPlace + "', " + tripTypeID[0].substring(1, tripTypeID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + purchased + ", " + surfold + ", " + reserve + ", " + cost + ")";
@@ -1025,14 +1025,14 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 400);
             setLocationRelativeTo(null);
 
-            JLabel tripLabel = new JLabel("Choose trip ID:");
+            JLabel tripLabel = new JLabel("Выберите номер рейса:");
             String select = "SELECT trip_id FROM trips";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
             comboBox1 = new JComboBox(strings1);
 
-            JLabel tripStatusLabel = new JLabel("Chose trip status:");
+            JLabel tripStatusLabel = new JLabel("Выберите статус рейса и причину:");
             select = "SELECT * FROM tripStatus";
             resultSet = selectFromTable(conn, select);
             strings2 = new Vector();
@@ -1076,20 +1076,20 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 400);
             setLocationRelativeTo(null);
 
-            JLabel tripLabel = new JLabel("Choose trip ID:");
+            JLabel tripLabel = new JLabel("Выберите номер рейса:");
             String select = "SELECT trip_id FROM trips";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
             comboBox1 = new JComboBox(strings1);
 
-            JLabel seatNumLabel = new JLabel("Enter seat number:");
+            JLabel seatNumLabel = new JLabel("Введите номер места:");
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
             numberField1 = new JFormattedTextField(numberFormat);
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(4);
 
-            JLabel ticketClassLabel = new JLabel("Choose ticket class:");
+            JLabel ticketClassLabel = new JLabel("Выберите класс билета:");
             select = "SELECT * FROM ticketClass";
             resultSet = selectFromTable(conn, select);
             strings2 = new Vector();
@@ -1107,7 +1107,7 @@ public class addRecordsToTable extends JFrame {
             }
             comboBox2 = new JComboBox(strings2);
 
-            JLabel aviacompanyLabel = new JLabel("Chose aviacompany:");
+            JLabel aviacompanyLabel = new JLabel("Выберите авикомпанию:");
             select = "SELECT * FROM aviacompany";
             resultSet = selectFromTable(conn, select);
             strings3 = new Vector();
@@ -1164,18 +1164,18 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 400);
             setLocationRelativeTo(null);
 
-            JLabel ticketLabel = new JLabel("Choose ticket ID:");
+            JLabel ticketLabel = new JLabel("Выберите номер билета:");
             String select = "SELECT ticket_id FROM tickets";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
             comboBox1 = new JComboBox(strings1);
 
-            resultBox1 = new JCheckBox("paid");
+            resultBox1 = new JCheckBox("оплачено");
 
-            JLabel date = new JLabel("Enter date of payment:");
-            String months[] = { "January", "February", "March", "April", "May", "June", "July", "August",
-                    "September", "October", "November", "December" };
+            JLabel date = new JLabel("Введите дату оплаты (если необходимо):");
+            String months[] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
+                    "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
             spinDay1 = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
             spinMonth1 = new JSpinner(new SpinnerListModel(months));
             spinYear1 = new JSpinner(new SpinnerNumberModel(2021, 2021, 2100, 1));
@@ -1223,91 +1223,91 @@ public class addRecordsToTable extends JFrame {
             setSize(400, 800);
             setLocationRelativeTo(null);
 
-            JLabel ticketLabel = new JLabel("Choose ticket ID:");
+            JLabel ticketLabel = new JLabel("Выберите номер билета:");
             String select = "SELECT ticket_id FROM tickets";
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
             comboBox1 = new JComboBox(strings1);
 
-            JLabel fullNameLabel = new JLabel("Enter passenger's full name:");
+            JLabel fullNameLabel = new JLabel("Введите полное имя пассажира:");
             textField1 = new JTextField(20);
             Color colorLog = textField1.getCaretColor();
             textField1.setForeground(Color.LIGHT_GRAY);
-            textField1.setText("Enter lastname here...");
+            textField1.setText("Введите фамилию...");
             textField1.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField1.setForeground(colorLog);
-                    if (textField1.getText().equals("Enter lastname here..."))
+                    if (textField1.getText().equals("Введите фамилию..."))
                         textField1.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField1.getText().isEmpty()) {
                         textField1.setForeground(Color.LIGHT_GRAY);
-                        textField1.setText("Enter lastname here...");
+                        textField1.setText("Введите фамилию...");
                     }
                 }
             });
             textField2 = new JTextField(20);
             textField2.setForeground(Color.LIGHT_GRAY);
-            textField2.setText("Enter firstname here...");
+            textField2.setText("Введите имя...");
             textField2.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField2.setForeground(colorLog);
-                    if (textField2.getText().equals("Enter firstname here..."))
+                    if (textField2.getText().equals("Введите имя..."))
                         textField2.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField2.getText().isEmpty()) {
                         textField2.setForeground(Color.LIGHT_GRAY);
-                        textField2.setText("Enter firstname here...");
+                        textField2.setText("Введите имя...");
                     }
                 }
             });
             textField3 = new JTextField(20);
             textField3.setForeground(Color.LIGHT_GRAY);
-            textField3.setText("Enter middle name here...");
+            textField3.setText("Введите отчество (если имеется)...");
             textField3.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField3.setForeground(colorLog);
-                    if (textField3.getText().equals("Enter middle name here..."))
+                    if (textField3.getText().equals("Введите отчество (если имеется)..."))
                         textField3.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField3.getText().isEmpty()) {
                         textField3.setForeground(Color.LIGHT_GRAY);
-                        textField3.setText("Enter middle name here...");
+                        textField3.setText("Введите отчество (если имеется)...");
                     }
                 }
             });
 
-            JLabel passportLabel = new JLabel("Enter passenger's passport ID:");
+            JLabel passportLabel = new JLabel("Введите номер паспорта пассажира:");
             textField4 = new JTextField(20);
             textField4.setForeground(Color.LIGHT_GRAY);
-            textField4.setText("Enter passport ID here...");
+            textField4.setText("Введите номер паспорта пассажира...");
             textField4.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField4.setForeground(colorLog);
-                    if (textField4.getText().equals("Enter passport ID here..."))
+                    if (textField4.getText().equals("Введите номер паспорта пассажира..."))
                         textField4.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField4.getText().isEmpty()) {
                         textField4.setForeground(Color.LIGHT_GRAY);
-                        textField4.setText("Enter passport ID here...");
+                        textField4.setText("Введите номер паспорта пассажира...");
                     }
                 }
             });
 
-            JLabel genderLabel = new JLabel("Choose passenger's gender:");
+            JLabel genderLabel = new JLabel("Выберите пол пассажира:");
             select = "SELECT * FROM gender";
             resultSet = selectFromTable(conn, select);
             strings2 = new Vector();
@@ -1325,34 +1325,34 @@ public class addRecordsToTable extends JFrame {
             }
             comboBox2 = new JComboBox(strings2);
 
-            JLabel ageLabel = new JLabel("Enter passenger's age:");
+            JLabel ageLabel = new JLabel("Введите возраст пассажира:");
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
             numberField1 = new JFormattedTextField(numberFormat);
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(2);
 
-            JLabel passportAbroadLabel = new JLabel("Enter passenger's passport abroad ID:");
+            JLabel passportAbroadLabel = new JLabel("Введите номер загран. пасспорта пассажира (если необходимо):");
             textField5 = new JTextField(20);
             textField5.setForeground(Color.LIGHT_GRAY);
-            textField5.setText("Enter passport abroad ID here...");
+            textField5.setText("Введите номер загран. пасспорта пассажира (если необходимо)...");
             textField5.addFocusListener(new FocusAdapter() {
                 @Override
                 public void focusGained(FocusEvent event){
                     textField5.setForeground(colorLog);
-                    if (textField5.getText().equals("Enter passport abroad ID here..."))
+                    if (textField5.getText().equals("Введите номер загран. пасспорта пассажира (если необходимо)..."))
                         textField5.setText("");
                 }
                 @Override
                 public void focusLost(FocusEvent event) {
                     if (textField5.getText().isEmpty()) {
                         textField5.setForeground(Color.LIGHT_GRAY);
-                        textField5.setText("Enter passport abroad ID here...");
+                        textField5.setText("Введите номер загран. пасспорта пассажира (если необходимо)...");
                     }
                 }
             });
 
-            resultBox1 = new JCheckBox("custom inspection");
-            resultBox2 = new JCheckBox("luggage");
+            resultBox1 = new JCheckBox("пограничный досмотр пройден");
+            resultBox2 = new JCheckBox("наличие багажа");
 
             JPanel ticketPanel = new JPanel();
             ticketPanel.add(ticketLabel);
@@ -1413,13 +1413,13 @@ public class addRecordsToTable extends JFrame {
                 lug = 1;
 
             String insert = null;
-            if (middlename.equals("Enter middle name here...")){
-                if (passportAbroadID.equals("Enter passport abroad ID here..."))
+            if (middlename.equals("Введите отчество (если имеется)...")){
+                if (passportAbroadID.equals("Введите номер загран. пасспорта пассажира (если необходимо)..."))
                     insert = "INSERT INTO passengers(ticket_id, passenger_lastname, passenger_firstname, passport_id, gen_id, passenger_age, luggage) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", '" + lastname + "', '" + firstname + "', '" + passportID + "', " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + age + ", " + lug + ")";
                 else
                     insert = "INSERT INTO passengers(ticket_id, passenger_lastname, passenger_firstname, passport_id, gen_id, passenger_age, passport_abroad_id, custom_inspection, luggage) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", '" + lastname + "', '" + firstname + "', '" + passportID + "', " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + age + ", '" + passportAbroadID + "', " + custom + ", " + lug + ")";
             } else{
-                if (passportAbroadID.equals("Enter passport abroad ID here..."))
+                if (passportAbroadID.equals("Введите номер загран. пасспорта пассажира (если необходимо)..."))
                     insert = "INSERT INTO passengers(ticket_id, passenger_lastname, passenger_firstname, passenger_middlename, passport_id, gen_id, passenger_age, luggage) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', '" + passportID + "', " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + age + ", " + lug + ")";
                 else
                     insert = "INSERT INTO passengers(ticket_id, passenger_lastname, passenger_firstname, passenger_middlename, passport_id, gen_id, passenger_age, passport_abroad_id, custom_inspection, luggage) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', '" + passportID + "', " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + age + ", '" + passportAbroadID + "', " + custom + ", " + lug + ")";

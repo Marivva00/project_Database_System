@@ -17,7 +17,7 @@ public class GetLogInfo extends JFrame {
     private JButton enter;
     private JButton back;
     public GetLogInfo(Connection conn, String url){
-        super("Log in info");
+        super("Логин и пароль");
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -25,19 +25,19 @@ public class GetLogInfo extends JFrame {
         loginField = new JTextField(20);
         Color colorLog = loginField.getCaretColor();
         loginField.setForeground(Color.LIGHT_GRAY);
-        loginField.setText("Enter your login here...");
+        loginField.setText("Введите логин...");
         loginField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent event){
                 loginField.setForeground(colorLog);
-                if (loginField.getText().equals("Enter your login here..."))
+                if (loginField.getText().equals("Введите логин..."))
                     loginField.setText("");
             }
             @Override
             public void focusLost(FocusEvent event) {
                 if (loginField.getText().isEmpty()) {
                     loginField.setForeground(Color.LIGHT_GRAY);
-                    loginField.setText("Enter your login here...");
+                    loginField.setText("Введите логин...");
                 }
             }
         });
@@ -45,25 +45,25 @@ public class GetLogInfo extends JFrame {
         passwordField = new JPasswordField(20);
         Color colorPas = passwordField.getCaretColor();
         passwordField.setForeground(Color.LIGHT_GRAY);
-        passwordField.setText("password");
+        passwordField.setText("пароль");
         passwordField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent event){
                 passwordField.setForeground(colorPas);
-                if (passwordField.getText().equals("password"))
+                if (passwordField.getText().equals("пароль"))
                     passwordField.setText(null);
             }
             @Override
             public void focusLost(FocusEvent event) {
                 if (passwordField.getPassword().toString().isEmpty()) {
                     loginField.setForeground(Color.LIGHT_GRAY);
-                    loginField.setText("password");
+                    loginField.setText("пароль");
                 }
             }
         });
 
-        enter = new JButton("Enter");
-        back = new JButton("Back");
+        enter = new JButton("Подключиться");
+        back = new JButton("Назад");
 
         JPanel authorisationPanel = new JPanel();
         authorisationPanel.setLayout(new BoxLayout(authorisationPanel, BoxLayout.PAGE_AXIS));

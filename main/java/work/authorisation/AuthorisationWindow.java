@@ -13,14 +13,14 @@ public class AuthorisationWindow extends JFrame {
     private JButton toLocalBase;
     private JButton toUniBase;
     public AuthorisationWindow(Connection conn){
-        super("Authorisation");
+        super("Авторизация");
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        connectTo = new JLabel("Connect to: ");
-        toLocalBase = new JButton("local base");
-        toUniBase = new JButton("university base");
+        connectTo = new JLabel("Подключиться к:");
+        toLocalBase = new JButton("локальному серверу");
+        toUniBase = new JButton("серверу НГУ");
 
         JPanel authorisationPanel = new JPanel();
         authorisationPanel.setLayout(new BoxLayout(authorisationPanel, BoxLayout.PAGE_AXIS));

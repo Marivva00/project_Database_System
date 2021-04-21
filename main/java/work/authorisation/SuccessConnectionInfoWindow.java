@@ -19,15 +19,15 @@ public class SuccessConnectionInfoWindow extends JFrame {
             "passengers.sql"};
     private List<String> tableNamesList = new LinkedList<>();
     public SuccessConnectionInfoWindow(Connection conn){
-        super("Authorisation");
+        super("Авторизация");
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
 
         tableNamesList.addAll(Arrays.asList(tableNames));
 
-        success = new JLabel("You're successfully connected...");
-        ok = new JButton("ok");
+        success = new JLabel("Подключение прошло успешно...");
+        ok = new JButton("Продолжить");
 
         JPanel windowPanel = new JPanel();
         windowPanel.setLayout(new BoxLayout(windowPanel, BoxLayout.PAGE_AXIS));
@@ -56,16 +56,20 @@ public class SuccessConnectionInfoWindow extends JFrame {
         List<String> triggersCreationSQL = new LinkedList<>();
 
         Collections.reverse(tableNamesList);
-        for (String tableName: tableNamesList)
-            tablesDroppingSQL.add((getSQLFromFile("/dropTables/" + tableName)));
-        Collections.reverse(tableNamesList);
-        for (String tableName: tableNamesList) {
-            tablesCreationSQL.add(getSQLFromFile("/createTables/" + tableName));
-            sequencesCreationSQL.add(getSQLFromFile("/createSequences/" + tableName));
-            sequencesDroppingSQL.add(getSQLFromFile("/dropSequences/" + tableName));
-            triggersCreationSQL.add(getSQLFromFile("/createTriggers/" + tableName));
+        try {
+            for (String tableName : tableNamesList)
+                tablesDroppingSQL.add((getSQLFromFile("/dropTables/" + tableName)));
+            Collections.reverse(tableNamesList);
+            for (String tableName : tableNamesList) {
+                tablesCreationSQL.add(getSQLFromFile("/createTables/" + tableName));
+                sequencesCreationSQL.add(getSQLFromFile("/createSequences/" + tableName));
+                sequencesDroppingSQL.add(getSQLFromFile("/dropSequences/" + tableName));
+                triggersCreationSQL.add(getSQLFromFile("/createTriggers/" + tableName));
+            }
         }
-
+        catch (UnsupportedEncodingException exception){
+            exception.printStackTrace();
+        }
         try {
             executeSQL(tablesDroppingSQL, conn);
             executeSQL(tablesCreationSQL, conn);
@@ -76,11 +80,13 @@ public class SuccessConnectionInfoWindow extends JFrame {
         } catch (SQLIntegrityConstraintViolationException ignored){
         } catch (SQLException exception){
             exception.printStackTrace();
+        } catch (UnsupportedEncodingException exception){
+            exception.printStackTrace();
         }
     }
-    private String getSQLFromFile(String localPath){
+    private String getSQLFromFile(String localPath) throws UnsupportedEncodingException {
         InputStream inputStream = this.getClass().getResourceAsStream(localPath);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         try{
             String str = bufferedReader.readLine();
             return str;
@@ -89,9 +95,9 @@ public class SuccessConnectionInfoWindow extends JFrame {
             return "";
         }
     }
-    private List<String> getListOfCommandsFromFile(String localPath){
+    private List<String> getListOfCommandsFromFile(String localPath) throws UnsupportedEncodingException {
         InputStream inputStream = this.getClass().getResourceAsStream(localPath);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
         List<String> commands = new LinkedList<>();
         Object[] lines = bufferedReader.lines().toArray();
         for (int i = 0; i < lines.length; i++)
@@ -106,7 +112,7 @@ public class SuccessConnectionInfoWindow extends JFrame {
             preparedStatement.executeUpdate(sql);
         }
     }
-    private void insertDefaultInfoSQL(Connection conn) throws SQLException {
+    private void insertDefaultInfoSQL(Connection conn) throws SQLException, UnsupportedEncodingException {
         for (String tableName: tableNamesList){
             List<String> listOfCommands = getListOfCommandsFromFile("/inserts/" + tableName);
             if (!listOfCommands.isEmpty())

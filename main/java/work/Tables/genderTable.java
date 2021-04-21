@@ -1,9 +1,5 @@
 package work.Tables;
 
-import work.MainMenuWindow;
-import work.inserts.insertGender;
-import work.lookOnTable.lookOnTableView;
-
 import javax.swing.*;
 import java.sql.*;
 import java.util.Vector;

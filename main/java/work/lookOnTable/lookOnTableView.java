@@ -27,7 +27,7 @@ public class lookOnTableView extends JFrame {
     private Integer errorDelete = 0;
 
     public lookOnTableView(Connection conn, Integer dep, String tableName){
-        super("work with '" + tableName + "' table");
+        super("Работа с '" + tableName + "' таблицей");
         setSize(1200, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -35,11 +35,11 @@ public class lookOnTableView extends JFrame {
         this.tableName = tableName;
         this.dep = dep;
 
-        goBack = new JButton("back");
-        addRecord = new JButton("add record");
-        deleteRecord = new JButton("delete record");
-        editRecord = new JButton("edit record");
-        help = new JButton("help");
+        goBack = new JButton("Назад");
+        addRecord = new JButton("Добавить запись");
+        deleteRecord = new JButton("Удалить запись");
+        editRecord = new JButton("Изменить запись");
+        help = new JButton("Справка");
 
         addActionListener(conn);
 

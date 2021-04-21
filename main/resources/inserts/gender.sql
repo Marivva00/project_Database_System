@@ -1,2 +1,2 @@
-INSERT INTO gender(gen_name) VALUES('men')
-INSERT INTO gender(gen_name) VALUES('women')
+INSERT INTO gender(gen_name) VALUES('мужчина')
+INSERT INTO gender(gen_name) VALUES('женщина')

@@ -1,1 +1,1 @@
-CREATE TABLE airport (airport_id NUMBER(5) PRIMARY KEY, airport_name VARCHAR(20) UNIQUE NOT NULL )
+CREATE TABLE airport (airport_id NUMBER(5) PRIMARY KEY, airport_name VARCHAR(40) UNIQUE NOT NULL )

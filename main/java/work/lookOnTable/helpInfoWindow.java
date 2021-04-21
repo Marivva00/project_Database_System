@@ -1,7 +1,5 @@
 package work.lookOnTable;
 
-import org.omg.PortableInterceptor.INACTIVE;
-
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
@@ -15,17 +13,17 @@ public class helpInfoWindow extends JFrame {
     JLabel toEdit;
 
     public helpInfoWindow(Connection conn, String tableName, Integer dep){
-        super("help information");
-        setSize(500, 200);
+        super("Справка");
+        setSize(700, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        goBack = new JButton("back");
-        genInfo = new JLabel("Some information about the actions above the table:");
-        toGo = new JLabel("- click on 'back' to return to the main menu");
-        toAdd = new JLabel("- click on 'add record' to add new record to the table");
-        toDelete = new JLabel("- click on record in table you're interested in then click on 'delete record'");
-        toEdit = new JLabel("- click on record in table you're interested in then click on 'edit record'");
+        goBack = new JButton("Назад");
+        genInfo = new JLabel("Некоторая информация о возможных действиях с таблицами:");
+        toGo = new JLabel("- нажмите на 'Назад' чтобы вернуться в главное меню");
+        toAdd = new JLabel("- нажмите на 'Добавить запись' чтобы добавить новую запись в таблицу");
+        toDelete = new JLabel("- нажмите в таблице на запись, которую хотите удалить, затем нажмите 'Удалить запись'");
+        toEdit = new JLabel("- нажмите в таблице на запись, которую хотите изменить, затем нажмите 'Изменить запись'");
 
         addActionListener(conn, tableName, dep);
 

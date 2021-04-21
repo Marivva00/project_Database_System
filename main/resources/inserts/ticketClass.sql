@@ -1,3 +1,3 @@
-INSERT INTO ticketClass(ticket_class_name) VALUES ('economy')
-INSERT INTO ticketClass(ticket_class_name) VALUES ('business')
-INSERT INTO ticketClass(ticket_class_name) VALUES ('first')
+INSERT INTO ticketClass(ticket_class_name) VALUES ('эконом')
+INSERT INTO ticketClass(ticket_class_name) VALUES ('бизнес')
+INSERT INTO ticketClass(ticket_class_name) VALUES ('первый')

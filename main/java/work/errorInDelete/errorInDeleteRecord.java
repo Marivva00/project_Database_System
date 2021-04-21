@@ -12,14 +12,14 @@ public class errorInDeleteRecord extends JFrame {
     JButton back;
 
     public errorInDeleteRecord(Connection conn, String tableName, Integer dep){
-        super("work with '" + tableName + "' table");
+        super("Работа с '" + tableName + "' таблицей");
         setSize(500, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        message1 = new JLabel("Error in delete record in '" + tableName + "' table.");
-        message2 = new JLabel("Records in other tables depend on this record. Chose another.");
-        back = new JButton("back");
+        message1 = new JLabel("Ошибка при удалении записи из '" + tableName + "' таблицы.");
+        message2 = new JLabel("Записи в других таблицах зависят от удаляемой. Выберите другую...");
+        back = new JButton("Продолжить");
 
         back.addActionListener((e)->{
             setVisible(false);

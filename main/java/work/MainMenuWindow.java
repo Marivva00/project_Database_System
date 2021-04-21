@@ -32,34 +32,34 @@ public class MainMenuWindow extends JFrame {
     private JButton passengers;
 
     public MainMenuWindow(Connection conn){
-        super("Main menu");
+        super("Информационная система аэропорта");
         setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        independentTablesLabel = new JLabel("This is independent tables:");
-        department = new JButton("department");
-        medical = new JButton("medical");
-        aviacompany = new JButton("aviacompany");
-        ticketClass = new JButton("ticket class");
-        tripStatus = new JButton("trip status");
-        tripType = new JButton("trip type");
-        airport = new JButton("airport");
-        gender = new JButton("gender");
+        independentTablesLabel = new JLabel("Независимые таблицы:");
+        department = new JButton("Отделы");
+        medical = new JButton("Мед. осмотр");
+        aviacompany = new JButton("Авиакомпании");
+        ticketClass = new JButton("Класс билета");
+        tripStatus = new JButton("Статус рейса");
+        tripType = new JButton("Тип рейса");
+        airport = new JButton("Аэропорты");
+        gender = new JButton("Пол");
 
-        dependentTablesLabel = new JLabel("This is dependent tables:");
-        carriage = new JButton("carriage");
-        workers = new JButton("workers");
-        technicalInspection = new JButton("technical inspection");
-        planes = new JButton("planes");
-        trips = new JButton("trips");
-        tickets = new JButton("tickets");
-        reserveTickets = new JButton("reserve tickets");
-        passengers = new JButton("passengers");
-        timetable = new JButton("timetable");
+        dependentTablesLabel = new JLabel("Зависимые таблицы:");
+        carriage = new JButton("Бригады");
+        workers = new JButton("Работники");
+        technicalInspection = new JButton("Тех. осмотр");
+        planes = new JButton("Самолёты");
+        trips = new JButton("Рейсы");
+        tickets = new JButton("Билеты");
+        reserveTickets = new JButton("Бронь билетов");
+        passengers = new JButton("Пассажиры");
+        timetable = new JButton("Расписание рейсов");
 
-        requestLabel = new JLabel("Here you can find requests in this info system:");
-        requests = new JButton("REQUESTS");
+        requestLabel = new JLabel("Запросы по информацинной системе:");
+        requests = new JButton("ЗАПРОСЫ");
 
         addActionListenersToButtons(conn);
 

@@ -346,6 +346,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM trips WHERE trip_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            } break;
             case 3:{
                 String select = "SELECT trips.trip_id, trips.plane_id, depart_time, arrival_time, depart_place, plane_change_place, arrival_place, tripType.trip_type_name, trips.car_id, purchased_count_tickets, reserve_count_tickets, surfold_count_tickets, ticket_cost FROM trips JOIN tripType USING(trip_type_id)";
                 generalSelect(conn, select);
@@ -357,6 +360,9 @@ public class lookOnTableView extends JFrame {
             case 0:{
                 String delete = "DELETE FROM timetable WHERE rec_id = " + recordId;
                 generalDelete(conn, delete);
+            } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
             } break;
             case 3:{
                 String select = "SELECT rec_id, trip_id, trips.depart_time, trips.arrival_time, trips.depart_place, trips.plane_change_place, trips.arrival_place, tripStatus.trip_status_name, tripStatus.trip_status_reason FROM timetable JOIN trips USING(trip_id) JOIN tripStatus USING(trip_status_id)";
@@ -370,6 +376,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM tickets WHERE ticket_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            } break;
             case 3:{
                 String select = "SELECT tickets.ticket_id, trip_id, trips.depart_place, trips.plane_change_place, trips.arrival_place, trips.depart_time, trips.arrival_time, tickets.ticket_seat_num, ticketClass.ticket_class_name, aviacompany.aviacomp_name FROM tickets JOIN trips USING(trip_id) JOIN ticketClass USING (ticket_class_id) JOIN aviacompany USING (aviacomp_id) ORDER BY (ticket_id)";
                 generalSelect(conn, select);
@@ -382,6 +391,9 @@ public class lookOnTableView extends JFrame {
                 String delete = "DELETE FROM reserveTickets WHERE reserve_id = " + recordId;
                 generalDelete(conn, delete);
             } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
+            } break;
             case 3:{
                 String select = "SELECT * FROM reserveTickets";
                 generalSelect(conn, select);
@@ -393,6 +405,9 @@ public class lookOnTableView extends JFrame {
             case 0:{
                 String delete = "DELETE FROM passengers WHERE passenger_id = " + recordId;
                 generalDelete(conn, delete);
+            } break;
+            case 1:{
+                new addRecordsToTable(conn, dep,  tableName);
             } break;
             case 3:{
                 String select = "SELECT passenger_id, passenger_lastname, passenger_firstname, passenger_middlename, gender.gen_name, passenger_age, passport_id, passport_abroad_id, custom_inspection, ticket_id, luggage FROM passengers JOIN gender USING(gen_id)";

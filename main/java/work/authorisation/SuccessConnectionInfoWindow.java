@@ -40,7 +40,8 @@ public class SuccessConnectionInfoWindow extends JFrame {
         ok.addActionListener((e)->{
             setVisible(false);
             createPartOfSystem(conn);
-            MainMenuWindow mainMenuWindow = new MainMenuWindow(conn);
+            new roleWindow(conn);
+            //new MainMenuWindow(conn);
         });
 
         windowPanel.add(successPanel);

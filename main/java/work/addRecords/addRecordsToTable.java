@@ -1,5 +1,6 @@
 package work.addRecords;
 
+import work.authorisation.role;
 import work.lookOnTable.lookOnTableView;
 
 import javax.swing.*;
@@ -48,13 +49,14 @@ public class addRecordsToTable extends JFrame {
     private Integer toDraw = 1;
 
     private Integer error = 0;
-
-    public addRecordsToTable(Connection conn, Integer dep,  String tableName){
+    private role userRole;
+    public addRecordsToTable(Connection conn, Integer dep,  String tableName, role userRole){
         super("Добавление записи в '" + tableName + "' таблицу");
         //setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        this.userRole = userRole;
         addPanel = new JPanel();
         addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.PAGE_AXIS));
 
@@ -66,11 +68,11 @@ public class addRecordsToTable extends JFrame {
             setVisible(false);
             toDraw = 0;
             getTable(conn, dep, tableName);
-            new lookOnTableView(conn, dep, tableName);
+            new lookOnTableView(conn, dep, tableName, userRole);
         });
         back.addActionListener((e)->{
             setVisible(false);
-            new lookOnTableView(conn, dep, tableName);
+            new lookOnTableView(conn, dep, tableName, userRole);
         });
 
         JPanel buttons = new JPanel();

@@ -1,4 +1,6 @@
 INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('Иванов', 'Сергей', 'Петрович', 40, 1, 0, 1, 1)
+INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id) VALUES('Романов', 'Роман', 'Романович', 35, 1, 2, 13)
+INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id) VALUES('Сидорова', 'Анна', 'Витальевна', 50, 2, 1, 15)
 INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('Смирнова', 'Анна', 'Николаевна', 35, 2, 2, 1, 2)
 INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('Соболев', 'Антон', 'Владимирович', 42, 1, 1, 2, 3)
 INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('Попов', 'Семён', 'Васильевич', 39, 1, 3, 2, 4)

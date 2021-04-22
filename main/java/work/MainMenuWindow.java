@@ -1,7 +1,10 @@
 package work;
 
 import work.Tables.*;
+import work.authorisation.role;
+import work.authorisation.roleWindow;
 import work.lookOnTable.lookOnTableView;
+import work.requests.requestsWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,11 +34,16 @@ public class MainMenuWindow extends JFrame {
     private JButton reserveTickets;
     private JButton passengers;
 
-    public MainMenuWindow(Connection conn){
+    private JButton back;
+
+    private role userRole;
+    public MainMenuWindow(Connection conn, role userRole){
         super("Информационная система аэропорта");
-        setSize(800, 400);
+        setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        this.userRole = userRole;
 
         independentTablesLabel = new JLabel("Независимые таблицы:");
         department = new JButton("Отделы");
@@ -60,6 +68,8 @@ public class MainMenuWindow extends JFrame {
 
         requestLabel = new JLabel("Запросы по информацинной системе:");
         requests = new JButton("ЗАПРОСЫ");
+
+        back = new JButton("Назад");
 
         addActionListenersToButtons(conn);
 
@@ -106,6 +116,8 @@ public class MainMenuWindow extends JFrame {
         main.add(requestLabel);
         requests.setAlignmentX(Component.CENTER_ALIGNMENT);
         main.add(requests);
+        back.setAlignmentX(Component.CENTER_ALIGNMENT);
+        main.add(back);
 
         add(main);
         setVisible(true);
@@ -163,9 +175,18 @@ public class MainMenuWindow extends JFrame {
         passengers.addActionListener((e)->{
             action(conn, 1, "passengers");
         });
+
+        requests.addActionListener((e)->{
+            setVisible(false);
+            new requestsWindow(conn, userRole);
+        });
+        back.addActionListener((e)->{
+            setVisible(false);
+            new roleWindow(conn);
+        });
     }
     private void action(Connection conn, Integer dep, String tableName){
         setVisible(false);
-        new lookOnTableView(conn, dep, tableName);
+        new lookOnTableView(conn, dep, tableName, this.userRole);
     }
 }

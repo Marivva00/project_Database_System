@@ -1,22 +1,27 @@
 package work.lookOnTable;
 
+import work.authorisation.role;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 
 public class helpInfoWindow extends JFrame {
-    JButton goBack;
-    JLabel genInfo;
-    JLabel toGo;
-    JLabel toAdd;
-    JLabel toDelete;
-    JLabel toEdit;
+    private JButton goBack;
+    private JLabel genInfo;
+    private JLabel toGo;
+    private JLabel toAdd;
+    private JLabel toDelete;
+    private JLabel toEdit;
+    private role userRole;
 
-    public helpInfoWindow(Connection conn, String tableName, Integer dep){
+    public helpInfoWindow(Connection conn, String tableName, Integer dep, role userRole){
         super("Справка");
         setSize(700, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        this.userRole = userRole;
 
         goBack = new JButton("Назад");
         genInfo = new JLabel("Некоторая информация о возможных действиях с таблицами:");
@@ -47,7 +52,7 @@ public class helpInfoWindow extends JFrame {
     private void addActionListener(Connection conn, String tableName, Integer dep){
         goBack.addActionListener((e)-> {
             setVisible(false);
-            new lookOnTableView(conn, dep, tableName);
+            new lookOnTableView(conn, dep, tableName, userRole);
         });
     }
 }

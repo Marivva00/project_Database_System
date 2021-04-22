@@ -2,6 +2,7 @@ package work.lookOnTable;
 
 import work.MainMenuWindow;
 import work.addRecords.addRecordsToTable;
+import work.authorisation.role;
 import work.errorInDelete.errorInDeleteRecord;
 
 import javax.swing.*;
@@ -25,35 +26,85 @@ public class lookOnTableView extends JFrame {
     private String tableName;
     private Integer dep;
     private Integer errorDelete = 0;
+    private role userRole;
 
-    public lookOnTableView(Connection conn, Integer dep, String tableName){
+    public lookOnTableView(Connection conn, Integer dep, String tableName, role userRole){
         super("Работа с '" + tableName + "' таблицей");
         setSize(1200, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        this.userRole = userRole;
         this.tableName = tableName;
         this.dep = dep;
 
         goBack = new JButton("Назад");
-        addRecord = new JButton("Добавить запись");
-        deleteRecord = new JButton("Удалить запись");
-        editRecord = new JButton("Изменить запись");
-        help = new JButton("Справка");
+        goBack.addActionListener((e)->{
+            setVisible(false);
+            new MainMenuWindow(conn, userRole);
+        });
 
-        addActionListener(conn);
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.add(goBack);
+
+        switch (userRole){
+            case adminBD:{
+                addRecord = new JButton("Добавить запись");
+                deleteRecord = new JButton("Удалить запись");
+                editRecord = new JButton("Изменить запись");
+                help = new JButton("Справка");
+                addActionListener(conn);
+                buttonsPanel.add(addRecord);
+                buttonsPanel.add(editRecord);
+                buttonsPanel.add(deleteRecord);
+                buttonsPanel.add(help);
+            }break;
+            case admin:{
+                if (tableName.equals("workers") || tableName.equals("timetable") || tableName.equals("trips")){
+                    addRecord = new JButton("Добавить запись");
+                    deleteRecord = new JButton("Удалить запись");
+                    editRecord = new JButton("Изменить запись");
+                    help = new JButton("Справка");
+                    addActionListener(conn);
+                    buttonsPanel.add(addRecord);
+                    buttonsPanel.add(editRecord);
+                    buttonsPanel.add(deleteRecord);
+                    buttonsPanel.add(help);
+                }
+            } break;
+            case cashier:{
+                if (tableName.equals("reserveTickets") || tableName.equals("tickets")){
+                    addRecord = new JButton("Добавить запись");
+                    deleteRecord = new JButton("Удалить запись");
+                    editRecord = new JButton("Изменить запись");
+                    help = new JButton("Справка");
+                    addActionListener(conn);
+                    buttonsPanel.add(addRecord);
+                    buttonsPanel.add(editRecord);
+                    buttonsPanel.add(deleteRecord);
+                    buttonsPanel.add(help);
+                }
+            } break;
+            case technic:{
+                if (tableName.equals("technicalInspection")){
+                    addRecord = new JButton("Добавить запись");
+                    deleteRecord = new JButton("Удалить запись");
+                    editRecord = new JButton("Изменить запись");
+                    help = new JButton("Справка");
+                    addActionListener(conn);
+                    buttonsPanel.add(addRecord);
+                    buttonsPanel.add(editRecord);
+                    buttonsPanel.add(deleteRecord);
+                    buttonsPanel.add(help);
+                }
+            } break;
+        }
 
         getTable(conn, select, null);
 
         table = new JTable(strings, columnNames);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.add(goBack);
-        buttonsPanel.add(addRecord);
-        buttonsPanel.add(editRecord);
-        buttonsPanel.add(deleteRecord);
-        buttonsPanel.add(help);
 
         mainPanel.add(new JScrollPane(table), BorderLayout.CENTER);
         mainPanel.add(buttonsPanel);
@@ -62,27 +113,23 @@ public class lookOnTableView extends JFrame {
         setVisible(true);
     }
     private void addActionListener(Connection conn){
-        goBack.addActionListener((e)->{
-            setVisible(false);
-            new MainMenuWindow(conn);
-        });
-        deleteRecord.addActionListener((e)->{
+        deleteRecord.addActionListener((e) -> {
             setVisible(false);
             deleteRecordFromTable(conn);
             if (errorDelete == 0)
-                new lookOnTableView(conn, dep, tableName);
+                new lookOnTableView(conn, dep, tableName, userRole);
         });
-        addRecord.addActionListener((e)->{
+        addRecord.addActionListener((e) -> {
             setVisible(false);
             addRecordToTable(conn);
         });
-        editRecord.addActionListener((e)->{
+        editRecord.addActionListener((e) -> {
             setVisible(false);
             editRecordInTable(conn);
         });
-        help.addActionListener((e)->{
+        help.addActionListener((e) -> {
             setVisible(false);
-            new helpInfoWindow(conn, tableName, dep);
+            new helpInfoWindow(conn, tableName, dep, userRole);
         });
     }
     private void deleteRecordFromTable(Connection conn){
@@ -156,7 +203,7 @@ public class lookOnTableView extends JFrame {
         } catch (SQLException exception){
             setVisible(false);
             errorDelete = 1;
-            new errorInDeleteRecord(conn, tableName, dep);
+            new errorInDeleteRecord(conn, tableName, dep, userRole);
         }
     }
 
@@ -167,7 +214,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM department";
@@ -182,7 +229,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM medical";
@@ -197,7 +244,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM aviacompany";
@@ -212,7 +259,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM ticketClass";
@@ -227,7 +274,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM tripStatus";
@@ -242,7 +289,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM tripType";
@@ -257,7 +304,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM airport";
@@ -272,7 +319,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep, tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM gender";
@@ -287,7 +334,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)";
@@ -302,7 +349,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, workers.worker_child_count, car_id, dep_name, workers.med_id FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)";
@@ -317,7 +364,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT ti_id, ti_date, deg_of_wear, ti_result, worker_id, worker_lastname, worker_firstname, worker_middlename, workers.car_id FROM technicalInspection JOIN workers USING(worker_id)";
@@ -332,7 +379,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT plane_id, plane_type, ti_id, plane_passengers_max, plane_age, trip_count, repairing_count, airport.airport_name FROM planes JOIN airport USING(airport_id)";
@@ -347,7 +394,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT trips.trip_id, trips.plane_id, depart_time, arrival_time, depart_place, plane_change_place, arrival_place, tripType.trip_type_name, trips.car_id, purchased_count_tickets, reserve_count_tickets, surfold_count_tickets, ticket_cost FROM trips JOIN tripType USING(trip_type_id)";
@@ -362,7 +409,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT rec_id, trip_id, trips.depart_time, trips.arrival_time, trips.depart_place, trips.plane_change_place, trips.arrival_place, tripStatus.trip_status_name, tripStatus.trip_status_reason FROM timetable JOIN trips USING(trip_id) JOIN tripStatus USING(trip_status_id)";
@@ -377,7 +424,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT tickets.ticket_id, trip_id, trips.depart_place, trips.plane_change_place, trips.arrival_place, trips.depart_time, trips.arrival_time, tickets.ticket_seat_num, ticketClass.ticket_class_name, aviacompany.aviacomp_name FROM tickets JOIN trips USING(trip_id) JOIN ticketClass USING (ticket_class_id) JOIN aviacompany USING (aviacomp_id) ORDER BY (ticket_id)";
@@ -392,7 +439,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT * FROM reserveTickets";
@@ -407,7 +454,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName);
+                new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
                 String select = "SELECT passenger_id, passenger_lastname, passenger_firstname, passenger_middlename, gender.gen_name, passenger_age, passport_id, passport_abroad_id, custom_inspection, ticket_id, luggage FROM passengers JOIN gender USING(gen_id)";

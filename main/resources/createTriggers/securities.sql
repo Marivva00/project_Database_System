@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_securities BEFORE INSERT ON securities FOR EACH ROW BEGIN SELECT seq_inc_securities.NextVal INTO :new.SECURITY_ID FROM dual; END;

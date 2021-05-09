@@ -1,0 +1,6 @@
+INSERT INTO tehworkers(tehworker_lastname, tehworker_firstname, tehworker_middlename, tehworker_age, gen_id, tehworker_child_count, car_id, high_education, is_manager) VALUES('Антонова', 'Антонина', 'Владленовна', 50, 2, 3, 5, 1, 1)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(1, 'Антонова', 'Антонина', 'Владленовна', 50, 2, 5, 1)
+INSERT INTO tehworkers(tehworker_lastname, tehworker_firstname, tehworker_age, gen_id, tehworker_child_count, car_id, high_education, is_manager) VALUES('Сергеев', 'Максим', 27, 1, 0, 6, 0, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(2, 'Сергеев', 'Максим', 27, 1, 6, 0)
+INSERT INTO tehworkers(tehworker_lastname, tehworker_firstname, tehworker_age, gen_id, tehworker_child_count, car_id, high_education, is_manager) VALUES('Филов', 'Тимур', 39, 1, 0, 6, 1, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(3, 'Филов', 'Тимур', 39, 1, 6, 0)

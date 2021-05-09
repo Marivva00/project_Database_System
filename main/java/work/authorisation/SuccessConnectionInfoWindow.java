@@ -14,9 +14,12 @@ public class SuccessConnectionInfoWindow extends JFrame {
     private JLabel success;
     private JButton ok;
     private static final String[] tableNames = {"gender.sql", "department.sql", "medical.sql", "aviacompany.sql",
-            "ticketClass.sql", "tripStatus.sql", "tripType.sql", "airport.sql", "carriage.sql", "workers.sql",
+            "ticketClass.sql", "tripStatus.sql", "tripType.sql", "airport.sql",
+            "carriage.sql", "workers.sql",
+            "pilots.sql", "dispetchers.sql", "tehworkers.sql", "cashiers.sql", "securities.sql", "buroworkers.sql",
             "technicalInspection.sql", "planes.sql", "trips.sql", "timetable.sql", "tickets.sql", "reserveTickets.sql",
-            "passengers.sql"};
+            "passengers.sql"
+    };
     private List<String> tableNamesList = new LinkedList<>();
     public SuccessConnectionInfoWindow(Connection conn){
         super("Авторизация");
@@ -112,12 +115,27 @@ public class SuccessConnectionInfoWindow extends JFrame {
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.executeUpdate(sql);
         }
+        preparedStatement.close();
     }
     private void insertDefaultInfoSQL(Connection conn) throws SQLException, UnsupportedEncodingException {
         for (String tableName: tableNamesList){
-            List<String> listOfCommands = getListOfCommandsFromFile("/inserts/" + tableName);
-            if (!listOfCommands.isEmpty())
-                executeSQL(listOfCommands, conn);
+            if (!tableName.equals("workers.sql")) {
+                List<String> listOfCommands = getListOfCommandsFromFile("/inserts/" + tableName);
+                if (!listOfCommands.isEmpty()) {
+                    PreparedStatement preparedStatement = null;
+                    for (String insert: listOfCommands){
+                        try {
+                            preparedStatement = conn.prepareStatement(insert);
+                            preparedStatement.executeUpdate(insert);
+                            conn.commit();
+                        } catch (SQLException exception){
+                            exception.printStackTrace();
+                            conn.rollback();
+                        }
+                    }
+                    preparedStatement.close();
+                }
+            }
         }
     }
 }

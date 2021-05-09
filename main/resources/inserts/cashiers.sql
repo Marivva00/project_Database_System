@@ -1,0 +1,6 @@
+INSERT INTO cashiers(cashier_lastname, cashier_firstname, cashier_middlename, cashier_age, gen_id, cashier_child_count, car_id, en_lang, is_manager) VALUES('Сидорова', 'Анна', 'Витальевна', 50, 2, 1, 7, 0, 1)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(1, 'Сидорова', 'Анна', 'Витальевна', 50, 2, 7, 1)
+INSERT INTO cashiers(cashier_lastname, cashier_firstname, cashier_middlename, cashier_age, gen_id, cashier_child_count, car_id, en_lang, is_manager) VALUES('Шарапов', 'Пётр', 'Михайлович', 23, 1, 0, 7, 1, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(2, 'Шарапов', 'Пётр', 'Михайлович', 23, 1, 7, 0)
+INSERT INTO cashiers(cashier_lastname, cashier_firstname, cashier_middlename, cashier_age, gen_id, cashier_child_count, car_id, en_lang, is_manager) VALUES('Зимин', 'Александр', 'Витальевич', 31, 1, 3, 8, 1, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(3, 'Зимин', 'Александр', 'Витальевич', 31, 1, 8, 0)

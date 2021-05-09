@@ -172,10 +172,17 @@ public class lookOnTableView extends JFrame {
     }
     private void generalSelect(Connection conn, String select){
         ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
         try{
-            PreparedStatement preparedStatement = conn.prepareStatement(select);
+            preparedStatement = conn.prepareStatement(select);
             resultSet = preparedStatement.executeQuery();
+            conn.commit();
         } catch (SQLException exception){
+            try {
+                conn.rollback();
+            } catch (SQLException exception1){
+                exception1.printStackTrace();
+            }
             exception.printStackTrace();
         }
         ResultSetMetaData resultSetMetaData = null;
@@ -195,11 +202,18 @@ public class lookOnTableView extends JFrame {
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
+        try {
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException exception){
+            exception.printStackTrace();
+        }
     }
     private void generalDelete(Connection conn, String delete){
         try{
             PreparedStatement preparedStatement = conn.prepareStatement(delete);
             preparedStatement.executeUpdate();
+            preparedStatement.close();
         } catch (SQLException exception){
             setVisible(false);
             errorDelete = 1;
@@ -327,6 +341,7 @@ public class lookOnTableView extends JFrame {
             } break;
         }
     }
+
     private void carriageTable(Connection conn, Integer what, String recordId){
         switch (what){
             case 0:{
@@ -352,7 +367,7 @@ public class lookOnTableView extends JFrame {
                 new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
-                String select = "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, workers.worker_child_count, car_id, dep_name, workers.med_id FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)";
+                String select = "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, car_id, dep_name FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)";
                 generalSelect(conn, select);
             } break;
         }

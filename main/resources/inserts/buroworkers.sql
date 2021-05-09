@@ -1,0 +1,4 @@
+INSERT INTO buroworkers(buroworker_lastname, buroworker_firstname, buroworker_middlename, buroworker_age, gen_id, buroworker_child_count, car_id, stress_resistance, is_manager) VALUES('Ключевская', 'Кристина', 'Романовна', 48, 2, 1, 11, 1, 1)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(1, 'Ключевская', 'Кристина', 'Романовна', 48, 2, 11, 1)
+INSERT INTO buroworkers(buroworker_lastname, buroworker_firstname, buroworker_middlename, buroworker_age, gen_id, buroworker_child_count, car_id, stress_resistance, is_manager) VALUES('Романович', 'Леонид', 'Ильич', 35, 1, 2, 12, 1, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(2, 'Романович', 'Леонид', 'Ильич', 35, 1, 12, 0)

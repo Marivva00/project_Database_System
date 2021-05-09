@@ -1,0 +1,6 @@
+INSERT INTO securities(security_lastname, security_firstname, security_middlename, security_age, gen_id, security_child_count, car_id, is_army, is_manager) VALUES('Романов', 'Роман', 'Романович', 35, 1, 2, 10, 1, 1)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(1, 'Романов', 'Роман', 'Романович', 35, 1, 10, 1)
+INSERT INTO securities(security_lastname, security_firstname, security_age, gen_id, security_child_count, car_id, is_army, is_manager) VALUES('Конев', 'Геннадий', 57, 1, 7, 9, 0, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(2, 'Конев', 'Геннадий', 57, 1, 9, 0)
+INSERT INTO securities(security_lastname, security_firstname, security_middlename, security_age, gen_id, security_child_count, car_id, is_army, is_manager) VALUES('Конев', 'Роман', 'Геннадьевич', 20, 1, 0, 9, 1, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(3, 'Конев', 'Роман', 'Геннадьевич', 20, 1, 9, 0)

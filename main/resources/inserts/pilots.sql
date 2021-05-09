@@ -1,0 +1,8 @@
+INSERT INTO pilots(pilot_lastname, pilot_firstname, pilot_middlename, pilot_age, gen_id, pilot_child_count, car_id, med_id, is_manager) VALUES('Иванов', 'Сергей', 'Петрович', 40, 1, 0, 1, 1, 1)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(1, 'Иванов', 'Сергей', 'Петрович', 40, 1, 1, 1)
+INSERT INTO pilots(pilot_lastname, pilot_firstname, pilot_middlename, pilot_age, gen_id, pilot_child_count, car_id, med_id, is_manager) VALUES('Смирнова', 'Анна', 'Николаевна', 35, 2, 2, 1, 2, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(2, 'Смирнова', 'Анна', 'Николаевна', 35, 2, 1, 0)
+INSERT INTO pilots(pilot_lastname, pilot_firstname, pilot_middlename, pilot_age, gen_id, pilot_child_count, car_id, med_id, is_manager) VALUES('Соболев', 'Антон', 'Владимирович', 42, 1, 1, 2, 3, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(3, 'Соболев', 'Антон', 'Владимирович', 42, 1, 2, 0)
+INSERT INTO pilots(pilot_lastname, pilot_firstname, pilot_middlename, pilot_age, gen_id, pilot_child_count, car_id, med_id, is_manager) VALUES('Попов', 'Семён', 'Васильевич', 39, 1, 3, 2, 4, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(4, 'Попов', 'Семён', 'Васильевич', 39, 1, 2, 0)

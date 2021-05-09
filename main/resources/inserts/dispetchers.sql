@@ -1,0 +1,6 @@
+INSERT INTO dispetchers(dispetcher_lastname, dispetcher_firstname, dispetcher_middlename, dispetcher_age, gen_id, dispetcher_child_count, car_id, working_hours_per_week, is_manager) VALUES('Соколова', 'Мария', 'Андреевна', 25, 2, 0, 3, 40, 1)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(1, 'Соколова', 'Мария', 'Андреевна', 25, 2, 3, 1)
+INSERT INTO dispetchers(dispetcher_lastname, dispetcher_firstname, dispetcher_age, gen_id, dispetcher_child_count, car_id, working_hours_per_week, is_manager) VALUES('Петров', 'Сергей', 30, 1, 2, 3, 50, 0)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(2, 'Петров', 'Сергей', 30, 1, 3, 0)
+INSERT INTO dispetchers(dispetcher_lastname, dispetcher_firstname, dispetcher_middlename, dispetcher_age, gen_id, dispetcher_child_count, car_id, working_hours_per_week, is_manager) VALUES('Кобелева', 'Галина', 'Николаевна', 48, 2, 2, 4, 48, 1)
+INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(3, 'Кобелева', 'Галина', 'Николаевна', 48, 2, 4, 1)

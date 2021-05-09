@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_dispetchers BEFORE INSERT ON dispetchers FOR EACH ROW BEGIN SELECT seq_inc_dispetchers.NextVal INTO :new.DISPETCHER_ID FROM dual; END;

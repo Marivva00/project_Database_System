@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_cashiers BEFORE INSERT ON cashiers FOR EACH ROW BEGIN SELECT seq_inc_cashiers.NextVal INTO :new.CASHIER_ID FROM dual; END;

@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_buroworkers BEFORE INSERT ON buroworkers FOR EACH ROW BEGIN SELECT seq_inc_buroworkers.NextVal INTO :new.BUROWORKER_ID FROM dual; END;

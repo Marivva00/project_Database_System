@@ -1,6 +1,6 @@
 package work.errorInDelete;
 
-import work.authorisation.role;
+import work.Roles.role;
 import work.lookOnTable.lookOnTableView;
 
 import javax.swing.*;

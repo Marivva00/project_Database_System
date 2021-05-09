@@ -1,6 +1,6 @@
 package work.lookOnTable;
 
-import work.authorisation.role;
+import work.Roles.role;
 
 import javax.swing.*;
 import java.awt.*;

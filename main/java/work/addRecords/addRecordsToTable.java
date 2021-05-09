@@ -1,6 +1,6 @@
 package work.addRecords;
 
-import work.authorisation.role;
+import work.Roles.role;
 import work.lookOnTable.lookOnTableView;
 
 import javax.swing.*;
@@ -178,6 +178,7 @@ public class addRecordsToTable extends JFrame {
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(insert);
             preparedStatement.executeUpdate(insert);
+            preparedStatement.close();
         } catch (SQLException exception){
             exception.printStackTrace();
         }
@@ -185,7 +186,9 @@ public class addRecordsToTable extends JFrame {
     private ResultSet selectFromTable(Connection conn, String select){
         try{
             PreparedStatement preparedStatement = conn.prepareStatement(select);
-            return preparedStatement.executeQuery();
+            ResultSet tmp = preparedStatement.executeQuery();
+            preparedStatement.close();
+            return tmp;
         } catch (SQLException exception){
             exception.printStackTrace();
             return null;
@@ -201,6 +204,7 @@ public class addRecordsToTable extends JFrame {
                     tmp.add(resultSet.getString(i));
                 strings1.add(tmp);
             }
+            resultSet.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

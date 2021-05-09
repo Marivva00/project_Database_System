@@ -1,7 +1,7 @@
 package work.requests;
 
 import work.MainMenuWindow;
-import work.authorisation.role;
+import work.Roles.role;
 
 import javax.swing.*;
 import java.awt.*;

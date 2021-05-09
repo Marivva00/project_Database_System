@@ -1,8 +1,8 @@
 package work.lookOnTable;
 
 import work.MainMenuWindow;
+import work.Roles.*;
 import work.addRecords.addRecordsToTable;
-import work.authorisation.role;
 import work.errorInDelete.errorInDeleteRecord;
 
 import javax.swing.*;
@@ -41,7 +41,13 @@ public class lookOnTableView extends JFrame {
         goBack = new JButton("Назад");
         goBack.addActionListener((e)->{
             setVisible(false);
-            new MainMenuWindow(conn, userRole);
+            switch (userRole){
+                case adminBD: new MainMenuWindow(conn, userRole); break;
+                case admin: new adminRoleWindow(conn); break;
+                case cashier: new cashierRoleWindow(conn); break;
+                case technic: new technicRoleWindow(conn); break;
+                case passenger: new passengerRoleWindow(conn); break;
+            }
         });
 
         JPanel buttonsPanel = new JPanel();
@@ -367,7 +373,7 @@ public class lookOnTableView extends JFrame {
                 new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
-                String select = "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, car_id, dep_name FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)";
+                String select = "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, car_id, dep_name, workers.is_manager FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)";
                 generalSelect(conn, select);
             } break;
         }

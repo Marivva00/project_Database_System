@@ -1,8 +1,7 @@
 package work;
 
-import work.Tables.*;
-import work.authorisation.role;
-import work.authorisation.roleWindow;
+import work.Roles.role;
+import work.Roles.roleWindow;
 import work.lookOnTable.lookOnTableView;
 import work.requests.requestsWindow;
 

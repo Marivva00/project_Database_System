@@ -12,9 +12,7 @@ import java.sql.Connection;
 public class MainMenuWindow extends JFrame {
     private JLabel independentTablesLabel;
     private JLabel dependentTablesLabel;
-    private JLabel requestLabel;
 
-    private JButton requests;
     private JButton department;
     private JButton medical;
     private JButton aviacompany;
@@ -65,9 +63,6 @@ public class MainMenuWindow extends JFrame {
         passengers = new JButton("Пассажиры");
         timetable = new JButton("Расписание рейсов");
 
-        requestLabel = new JLabel("Запросы по информацинной системе:");
-        requests = new JButton("ЗАПРОСЫ");
-
         back = new JButton("Назад");
 
         addActionListenersToButtons(conn);
@@ -111,10 +106,6 @@ public class MainMenuWindow extends JFrame {
         main.add(independent);
         main.add(info2);
         main.add(dependent);
-        requestLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        main.add(requestLabel);
-        requests.setAlignmentX(Component.CENTER_ALIGNMENT);
-        main.add(requests);
         back.setAlignmentX(Component.CENTER_ALIGNMENT);
         main.add(back);
 
@@ -173,11 +164,6 @@ public class MainMenuWindow extends JFrame {
         });
         passengers.addActionListener((e)->{
             action(conn, 1, "passengers");
-        });
-
-        requests.addActionListener((e)->{
-            setVisible(false);
-            new requestsWindow(conn, userRole);
         });
         back.addActionListener((e)->{
             setVisible(false);

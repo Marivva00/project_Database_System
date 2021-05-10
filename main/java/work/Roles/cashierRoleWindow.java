@@ -1,10 +1,12 @@
 package work.Roles;
 
 import work.lookOnTable.lookOnTableView;
+import work.requests.requestsWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
+import java.util.Vector;
 
 public class cashierRoleWindow extends JFrame{
     private JButton tickets;
@@ -54,7 +56,23 @@ public class cashierRoleWindow extends JFrame{
             setVisible(false);
             new lookOnTableView(conn, 1, "reserveTickets", role.cashier);
         });
-
+        requests.addActionListener((e)->{
+            setVisible(false);
+            Vector strings = new Vector();
+            Vector tmp1 = new Vector();
+            tmp1.add("1");
+            tmp1.add("Получить перечень и общее число авиаpейсов указанной категоpии, в определенном напpавлении, с указанным типом самолета.");
+            strings.add(tmp1);
+            Vector tmp2 = new Vector();
+            tmp2.add("2");
+            tmp2.add("Получить перечень и общее число пассажиpов на данном pейсе, улетевших в указанный день, улетевших за гpаницу в указанный день, по пpизнаку сдачи вещей в багажное отделение, по половому пpизнаку, по возpасту.");
+            strings.add(tmp2);
+            Vector tmp3 = new Vector();
+            tmp3.add("3");
+            tmp3.add("Получить перечень и общее число свободных и забpониpованных мест на указанном pейсе, на опреденный день, по указанному маpшpуту, по цене, по вpемени вылета.");
+            strings.add(tmp3);
+            new requestsWindow(conn, role.cashier, strings);
+        });
         back.addActionListener((e)->{
             setVisible(false);
             new roleWindow(conn);

@@ -16,7 +16,7 @@ public class executeRequestWindow extends JFrame {
     private JLabel count;
 
     private role userRole;
-    public executeRequestWindow(Connection conn, String sql, role userRole){
+    public executeRequestWindow(Connection conn, String sql, role userRole, Vector strings){
         super("Результат запроса");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,12 +25,12 @@ public class executeRequestWindow extends JFrame {
         this.userRole = userRole;
 
         execute(conn, sql);
-        table = new JTable(strings,columnNames);
+        table = new JTable(this.strings,columnNames);
 
         back = new JButton("Назад");
         back.addActionListener((e)->{
             setVisible(false);
-            new requestsWindow(conn, userRole);
+            new requestsWindow(conn, userRole, strings);
         });
 
         count = new JLabel("Количество записей: " + countRows);
@@ -52,8 +52,9 @@ public class executeRequestWindow extends JFrame {
     }
     private void execute(Connection conn, String sql){
         ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
         try{
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement = conn.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException exception){
             exception.printStackTrace();
@@ -73,6 +74,8 @@ public class executeRequestWindow extends JFrame {
                 strings.add(tmp);
                 countRows++;
             }
+            resultSet.close();
+            preparedStatement.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

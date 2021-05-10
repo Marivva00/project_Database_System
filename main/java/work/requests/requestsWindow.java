@@ -1,7 +1,7 @@
 package work.requests;
 
 import work.MainMenuWindow;
-import work.Roles.role;
+import work.Roles.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class requestsWindow extends JFrame {
     private Map<Integer, String> requests;
 
     private role userRole;
-    public requestsWindow(Connection conn, role userRole){
+    public requestsWindow(Connection conn, role userRole, Vector strings){
         super("Запросы в информационной системе аэропорта");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,12 +33,12 @@ public class requestsWindow extends JFrame {
         go = new JButton("Выполнить");
         info = new JButton("Справка");
 
-        addActionListeners(conn);
+        addActionListeners(conn, strings, userRole);
 
+        getRequestsTable(strings);
         fillRequestsMap();
-        getRequestsTable();
 
-        table = new JTable(strings,columnNames);
+        table = new JTable(this.strings,columnNames);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
@@ -58,41 +58,40 @@ public class requestsWindow extends JFrame {
         requests.put(1, "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, workers.worker_child_count, car_id, dep_name, workers.med_id FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)");
         requests.put(2, "WITH S1 AS (SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id) WHERE (dep_id BETWEEN 7 AND 12)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, workers.worker_child_count, car_id, dep_name, workers.med_id FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)");
     }
-    private void addActionListeners(Connection conn){
+    private void addActionListeners(Connection conn, Vector strings, role userRole){
         back.addActionListener((e)->{
             setVisible(false);
-            new MainMenuWindow(conn, userRole);
+            switch (userRole){
+                case admin: new adminRoleWindow(conn); break;
+                case cashier: new cashierRoleWindow(conn); break;
+                case technic: new technicRoleWindow(conn); break;
+                case passenger: new passengerRoleWindow(conn); break;
+                case adminBD: new MainMenuWindow(conn, role.adminBD);
+            }
         });
         info.addActionListener((e)->{
             setVisible(false);
-            new infoRequestWindow(conn, userRole);
+            new infoRequestWindow(conn, userRole, strings);
         });
         go.addActionListener((e)->{
             setVisible(false);
-            goRequest(conn);
+            goRequest(conn, strings);
         });
     }
-    private void getRequestsTable(){
+    private void getRequestsTable(Vector strings){
         columnNames = new Vector();
-        strings = new Vector();
+        this.strings = new Vector();
 
         columnNames.add("Номер");
         columnNames.add("Запрос");
 
-        Vector tmp1 = new Vector();
-        tmp1.add("1");
-        tmp1.add("Получить список и общее число всех pаботников аэpопоpта");
-        strings.add(tmp1);
-        Vector tmp2 = new Vector();
-        tmp2.add("2");
-        tmp2.add("Получить начальников отделов");
-        strings.add(tmp2);
+        this.strings = strings;
     }
-    private void goRequest(Connection conn){
+    private void goRequest(Connection conn, Vector strings){
         String recordNum = table.getValueAt(table.getSelectedRow(), 0).toString();
         Integer requestNum = Integer.parseInt(recordNum);
 
         String request = requests.get(requestNum);
-        new executeRequestWindow(conn, request, userRole);
+        new executeRequestWindow(conn, request, userRole, strings);
     }
 }

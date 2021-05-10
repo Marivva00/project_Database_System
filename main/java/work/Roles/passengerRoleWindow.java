@@ -2,10 +2,12 @@ package work.Roles;
 
 import work.Roles.Actions.getTicketInfo;
 import work.lookOnTable.lookOnTableView;
+import work.requests.requestsWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
+import java.util.Vector;
 
 public class passengerRoleWindow extends JFrame {
     private JButton timetable;
@@ -19,7 +21,7 @@ public class passengerRoleWindow extends JFrame {
         setLocationRelativeTo(null);
 
         timetable = new JButton("посмотреть расписание рейсов");
-        request = new JButton("посмотреть свой билет");
+        request = new JButton("запросы в информационной системе");
         back = new JButton("Назад");
 
         addActionListeners(conn);
@@ -48,7 +50,20 @@ public class passengerRoleWindow extends JFrame {
         });
         request.addActionListener((e)->{
             setVisible(false);
-            new getTicketInfo(conn);
+            Vector strings = new Vector();
+            Vector tmp1 = new Vector();
+            tmp1.add("1");
+            tmp1.add("Получить перечень и общее число pейсов по указанному маpшpуту, по цене билета и по всем этим кpитеpиям сpазу.");
+            strings.add(tmp1);
+            Vector tmp2 = new Vector();
+            tmp2.add("2");
+            tmp2.add("Получить перечень и общее число отмененных pейсов полностью, в указанном напpавлении, по указанному маpшpуту, по количеству невостpебованных мест, по пpоцентному соотношению невостpебованных мест.");
+            strings.add(tmp2);
+            Vector tmp3 = new Vector();
+            tmp3.add("3");
+            tmp3.add("Получить перечень и общее число задеpжанных pейсов полностью, по указанной пpичине, по указанному маpшpуту.");
+            strings.add(tmp3);
+            new requestsWindow(conn, role.passenger, strings);
         });
         back.addActionListener((e)->{
             setVisible(false);

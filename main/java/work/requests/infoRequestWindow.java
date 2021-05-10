@@ -5,6 +5,7 @@ import work.Roles.role;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
+import java.util.Vector;
 
 public class infoRequestWindow extends JFrame {
     private JButton back;
@@ -12,7 +13,7 @@ public class infoRequestWindow extends JFrame {
 
     private role userRole;
 
-    public infoRequestWindow(Connection conn, role userRole){
+    public infoRequestWindow(Connection conn, role userRole, Vector strings){
         super("Справка");
         setSize(600, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +24,7 @@ public class infoRequestWindow extends JFrame {
         back = new JButton("Назад");
         back.addActionListener((e)->{
             setVisible(false);
-            new requestsWindow(conn, userRole);
+            new requestsWindow(conn, userRole, strings);
         });
 
         info = new JLabel("Выберите интересующий вас запрос в списке, нажмите 'Выполнить'");

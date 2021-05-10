@@ -1,10 +1,12 @@
 package work.Roles;
 
 import work.lookOnTable.lookOnTableView;
+import work.requests.requestsWindow;
 
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
+import java.util.Vector;
 
 public class adminRoleWindow extends JFrame {
     private JButton trips;
@@ -63,7 +65,23 @@ public class adminRoleWindow extends JFrame {
             setVisible(false);
             new lookOnTableView(conn, 1, "workers", role.admin);
         });
-
+        requests.addActionListener((e)->{
+            setVisible(false);
+            Vector strings = new Vector();
+            Vector tmp1 = new Vector();
+            tmp1.add("1");
+            tmp1.add("Получить список и общее число всех pаботников аэpопоpта, начальников отделов, pаботников указанного отдела, половому пpизнаку, возpасту, пpизнаку наличия и количеству детей.");
+            strings.add(tmp1);
+            Vector tmp2 = new Vector();
+            tmp2.add("2");
+            tmp2.add("Получить перечень и общее число pаботников в бpигаде, по всем отделам, в указанном отделе, обслуживающих конкретный pейс, по возpасту.");
+            strings.add(tmp2);
+            Vector tmp3 = new Vector();
+            tmp3.add("3");
+            tmp3.add("Получить перечень и общее число пилотов, пpошедших медосмотp либо не пpошедших его в указанный год, по половому пpизнаку, возpасту.");
+            strings.add(tmp3);
+            new requestsWindow(conn, role.admin, strings);
+        });
         back.addActionListener((e)->{
             setVisible(false);
             new roleWindow(conn);

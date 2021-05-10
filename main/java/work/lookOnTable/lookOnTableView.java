@@ -1,8 +1,10 @@
 package work.lookOnTable;
 
+import org.apache.ibatis.jdbc.SQL;
 import work.MainMenuWindow;
 import work.Roles.*;
 import work.addRecords.addRecordsToTable;
+import work.addRecords.chooseTable;
 import work.errorInDelete.errorInDeleteRecord;
 
 import javax.swing.*;
@@ -370,7 +372,7 @@ public class lookOnTableView extends JFrame {
                 generalDelete(conn, delete);
             } break;
             case 1:{
-                new addRecordsToTable(conn, dep,  tableName, userRole);
+                new chooseTable(conn, userRole);
             } break;
             case 3:{
                 String select = "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, car_id, dep_name, workers.is_manager FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)";
@@ -418,7 +420,7 @@ public class lookOnTableView extends JFrame {
                 new addRecordsToTable(conn, dep,  tableName, userRole);
             } break;
             case 3:{
-                String select = "SELECT trips.trip_id, trips.plane_id, depart_time, arrival_time, depart_place, plane_change_place, arrival_place, tripType.trip_type_name, trips.car_id, purchased_count_tickets, reserve_count_tickets, surfold_count_tickets, ticket_cost FROM trips JOIN tripType USING(trip_type_id)";
+                String select = "SELECT trips.trip_id, trips.plane_id, depart_time, arrival_time, depart_place, plane_change_place, arrival_place, tripType.trip_type_name, trips.car_id, max_count_tickets, prodano_count_tickets, reserve_count_tickets, sdano_count_tickets, ticket_cost FROM trips JOIN tripType USING(trip_type_id)";
                 generalSelect(conn, select);
             } break;
         }
@@ -441,8 +443,69 @@ public class lookOnTableView extends JFrame {
     private void ticketsTable(Connection conn, Integer what, String recordId){
         switch (what){
             case 0:{
-                String delete = "DELETE FROM tickets WHERE ticket_id = " + recordId;
-                generalDelete(conn, delete);
+                try {
+                    if (errorDelete == 1) {
+                        conn.rollback();
+                        throw new SQLException();
+                    }
+                    else conn.commit();
+                    String tripIDSelect = "SELECT trip_id FROM tickets WHERE(ticket_id = " + recordId + ")";
+                    Integer tripID = -1;
+                    try {
+                        PreparedStatement preStatement = conn.prepareStatement(tripIDSelect);
+                        ResultSet resultSet = preStatement.executeQuery();
+                        while (resultSet.next()) {
+                            tripID = resultSet.getInt(1);
+                        }
+                        resultSet.close();
+                        preStatement.close();
+                        conn.commit();
+                    } catch (SQLException exception) {
+                        try {
+                            conn.rollback();
+                        } catch (SQLException exception1) {
+                            exception1.printStackTrace();
+                        }
+                        exception.printStackTrace();
+                    }
+                    String sdanoCountSelect = "SELECT sdano_count_tickets FROM trips WHERE(trip_id = " + tripID.toString() + ")";
+                    Integer sdanoCount = -1;
+                    try {
+                        PreparedStatement preStatement = conn.prepareStatement(sdanoCountSelect);
+                        ResultSet resultSet = preStatement.executeQuery();
+                        while (resultSet.next()) {
+                            sdanoCount = resultSet.getInt(1);
+                        }
+                        resultSet.close();
+                        preStatement.close();
+                        conn.commit();
+                    } catch (SQLException exception) {
+                        try {
+                            conn.rollback();
+                        } catch (SQLException exception1) {
+                            exception1.printStackTrace();
+                        }
+                        exception.printStackTrace();
+                    }
+                    sdanoCount++;
+                    String upd = "UPDATE trips SET sdano_count_tickets = " + sdanoCount.toString() + " WHERE(trip_id = " + tripID.toString() + ")";
+                    PreparedStatement preparedStatement = conn.prepareStatement(upd);
+                    preparedStatement.executeUpdate(upd);
+                    preparedStatement.close();
+                    String delete = "DELETE FROM tickets WHERE ticket_id = " + recordId;
+                    generalDelete(conn, delete);
+                    if (errorDelete == 1) {
+                        conn.rollback();
+                    }
+                    else conn.commit();
+                } catch (SQLException exception){
+                    try{
+                        conn.rollback();
+                    } catch (SQLException exception1){
+                        exception1.printStackTrace();
+                    }
+                    exception.printStackTrace();
+                }
             } break;
             case 1:{
                 new addRecordsToTable(conn, dep,  tableName, userRole);

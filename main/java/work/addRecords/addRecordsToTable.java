@@ -1,5 +1,6 @@
 package work.addRecords;
 
+import org.apache.ibatis.jdbc.SQL;
 import work.Roles.role;
 import work.lookOnTable.lookOnTableView;
 
@@ -49,7 +50,10 @@ public class addRecordsToTable extends JFrame {
     private Integer toDraw = 1;
 
     private Integer error = 0;
+    private Integer countCheckBoxes = 0;
     private role userRole;
+    private String months[] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
+            "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
     public addRecordsToTable(Connection conn, Integer dep,  String tableName, role userRole){
         super("Добавление записи в '" + tableName + "' таблицу");
         //setSize(400, 400);
@@ -60,19 +64,25 @@ public class addRecordsToTable extends JFrame {
         addPanel = new JPanel();
         addPanel.setLayout(new BoxLayout(addPanel, BoxLayout.PAGE_AXIS));
 
-        getTable(conn, dep, tableName);
+        identifyTable(conn, dep, tableName);
 
         ok = new JButton("Добавить запись");
         back = new JButton("Назад");
         ok.addActionListener((e)->{
             setVisible(false);
             toDraw = 0;
-            getTable(conn, dep, tableName);
-            new lookOnTableView(conn, dep, tableName, userRole);
+            identifyTable(conn, dep, tableName);
+            if (tableName.equals("pilots") || tableName.equals("dispetchers") || tableName.equals("cashiers") || tableName.equals("securities") || tableName.equals("tehworkers") || tableName.equals("buroworkers"))
+                new lookOnTableView(conn, 1, "workers", userRole);
+            else
+                new lookOnTableView(conn, dep, tableName, userRole);
         });
         back.addActionListener((e)->{
             setVisible(false);
-            new lookOnTableView(conn, dep, tableName, userRole);
+            if (tableName.equals("pilots") || tableName.equals("dispetchers") || tableName.equals("cashiers") || tableName.equals("securities") || tableName.equals("tehworkers") || tableName.equals("buroworkers"))
+                new chooseTable(conn, userRole);
+            else
+                new lookOnTableView(conn, dep, tableName, userRole);
         });
 
         JPanel buttons = new JPanel();
@@ -117,7 +127,7 @@ public class addRecordsToTable extends JFrame {
         addPanel.add(labelPanel);
         addPanel.add(textPanel);
     }
-    private void getTable(Connection conn, Integer dep, String tableName){
+    private void identifyTable(Connection conn, Integer dep, String tableName){
         if (dep == 0)
             switch (tableName){
                 case "department": departmentTable(conn); break;
@@ -132,7 +142,12 @@ public class addRecordsToTable extends JFrame {
         else{
             switch (tableName){
                 case "carriage": carriageTable(conn); break;
-                case "workers": workersTable(conn); break;
+                case "buroworkers": workersTable(conn, "buroworkers"); break;
+                case "cashiers": workersTable(conn, "cashiers"); break;
+                case "dispetchers": workersTable(conn, "dispetchers"); break;
+                case "pilots": workersTable(conn, "pilots"); break;
+                case "securities": workersTable(conn, "securities"); break;
+                case "tehworkers": workersTable(conn, "tehworkers"); break;
                 case "technicalInspection": technicalInspectionTable(conn); break;
                 case "planes": planesTable(conn); break;
                 case "trips": tripsTable(conn); break;
@@ -174,20 +189,16 @@ public class addRecordsToTable extends JFrame {
             default: return day;
         }
     }
-    private void insertIntoTable(Connection conn, String insert){
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(insert);
-            preparedStatement.executeUpdate(insert);
-            preparedStatement.close();
-        } catch (SQLException exception){
-            exception.printStackTrace();
-        }
+    private void insertIntoTable(Connection conn, String insert) throws SQLException {
+        PreparedStatement preparedStatement = conn.prepareStatement(insert);
+        preparedStatement.executeUpdate(insert);
+        preparedStatement.close();
     }
     private ResultSet selectFromTable(Connection conn, String select){
         try{
             PreparedStatement preparedStatement = conn.prepareStatement(select);
             ResultSet tmp = preparedStatement.executeQuery();
-            preparedStatement.close();
+            //preparedStatement.close();
             return tmp;
         } catch (SQLException exception){
             exception.printStackTrace();
@@ -204,7 +215,7 @@ public class addRecordsToTable extends JFrame {
                     tmp.add(resultSet.getString(i));
                 strings1.add(tmp);
             }
-            resultSet.close();
+            //resultSet.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -216,7 +227,17 @@ public class addRecordsToTable extends JFrame {
         else {
             String departmentName = textField1.getText();
             String insert = "INSERT INTO department(dep_name) VALUES ('" + departmentName + "')";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void medicalTable(Connection conn){
@@ -226,8 +247,6 @@ public class addRecordsToTable extends JFrame {
 
             JLabel date = new JLabel("Введите дату мед. осмотра:");
 
-            String months[] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
-                               "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
             spinDay1 = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
             spinMonth1 = new JSpinner(new SpinnerListModel(months));
             spinYear1 = new JSpinner(new SpinnerNumberModel(2021, 2021, 2100, 1));
@@ -265,7 +284,17 @@ public class addRecordsToTable extends JFrame {
                 res = 0;
 
             String insert = "INSERT INTO medical(med_date, med_status) VALUES(TO_DATE('"+ getDay(day) + "." + getMonthNum(month) + "." + year + "','dd.mm.yyyy'), " + res + ")";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void aviacompanyTable(Connection conn){
@@ -274,7 +303,17 @@ public class addRecordsToTable extends JFrame {
         else {
             String aviacompanyName = textField1.getText();
             String insert = "INSERT INTO aviacompany(aviacomp_name) VALUES ('" + aviacompanyName + "')";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void ticketClassTable(Connection conn){
@@ -283,7 +322,17 @@ public class addRecordsToTable extends JFrame {
         else {
             String ticketClassName = textField1.getText();
             String insert = "INSERT INTO ticketClass(ticket_class_name) VALUES ('" + ticketClassName + "')";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void tripStatusTable(Connection conn){
@@ -324,7 +373,17 @@ public class addRecordsToTable extends JFrame {
             if (tripStatusReason.equals("Введите причину данного статуса..."))
                 tripStatusReason = "";
             String insert = "INSERT INTO tripStatus(trip_status_name, trip_status_reason) VALUES ('" + tripStatusName + "', '" + tripStatusReason + "')";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void tripTypeTable(Connection conn){
@@ -333,7 +392,17 @@ public class addRecordsToTable extends JFrame {
         else {
             String tripTypeName = textField1.getText();
             String insert = "INSERT INTO tripType(trip_type_name) VALUES ('" + tripTypeName + "')";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void airportTable(Connection conn){
@@ -342,7 +411,17 @@ public class addRecordsToTable extends JFrame {
         else {
             String airportName = textField1.getText();
             String insert = "INSERT INTO airport(airport_name) VALUES ('" + airportName + "')";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void genderTable(Connection conn){
@@ -351,13 +430,42 @@ public class addRecordsToTable extends JFrame {
         else {
             String genderName = textField1.getText();
             String insert = "INSERT INTO gender(gen_name) VALUES ('" + genderName + "')";
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
 
-    private void checkText(String textField, String canon){
-        if (textField.equals(canon))
-            error = 1;
+    String getID(Connection conn, String tableName){
+        String select = "SELECT COUNT(*) FROM " + tableName;
+        Integer count = -1;
+        try {
+            PreparedStatement preStatement = conn.prepareStatement(select);
+            ResultSet result = preStatement.executeQuery();
+            while (result.next()) {
+                count = result.getInt(1);
+            }
+            result.close();
+            preStatement.close();
+            count++;
+            return count.toString();
+        } catch (SQLException exception){
+            try {
+                conn.rollback();
+            } catch (SQLException exception1){
+                exception1.printStackTrace();
+            }
+            exception.printStackTrace();
+            return count.toString();
+        }
     }
     private void carriageTable(Connection conn){
         if (toDraw == 1){
@@ -382,11 +490,20 @@ public class addRecordsToTable extends JFrame {
             String[] stringArray = string.split(" ");
 
             String insert = "INSERT INTO carriage(dep_id) VALUES (" + stringArray[0].substring(1, stringArray[0].length() - 1) + ")";
-            //System.out.println(insert);
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
-    private void workersTable(Connection conn){
+    private void workersTable(Connection conn, String type){
         if (toDraw == 1){
             setSize(400, 700);
             setLocationRelativeTo(null);
@@ -459,7 +576,6 @@ public class addRecordsToTable extends JFrame {
             ResultSet resultSet = selectFromTable(conn, select);
             strings1 = new Vector();
             getStringsFromResultSet(resultSet);
-
             comboBox1 = new JComboBox(strings1);
 
             JLabel childLabel = new JLabel("Введите количество детей у работника:");
@@ -468,7 +584,16 @@ public class addRecordsToTable extends JFrame {
             numberField2.setColumns(2);
 
             JLabel carriageLabel = new JLabel("Выберите бригаду работника:");
-            select = "SELECT car_id FROM carriage";
+            String dep_id = null;
+            switch (type){
+                case "buroworkers": dep_id = "6"; break;
+                case "cashiers": dep_id = "4"; break;
+                case "dispetchers": dep_id = "2"; break;
+                case "pilots": dep_id = "1"; break;
+                case "securities": dep_id = "5"; break;
+                case "tehworkers": dep_id = "3"; break;
+            }
+            select = "SELECT car_id FROM carriage WHERE(dep_id = " + dep_id + ")";
             resultSet = selectFromTable(conn, select);
             strings2 = new Vector();
             ResultSetMetaData resultSetMetaData = null;
@@ -483,31 +608,7 @@ public class addRecordsToTable extends JFrame {
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
-
             comboBox2 = new JComboBox(strings2);
-
-            JLabel medicalLabel = new JLabel("Выберите номер мед. осмотра работника (если необходимо):");
-            select = "SELECT med_id FROM medical";
-            resultSet = selectFromTable(conn, select);
-            strings3 = new Vector();
-            String noneStr = "none";
-            Vector noneVec = new Vector();
-            noneVec.add(noneStr);
-            strings3.add(noneVec);
-            resultSetMetaData = null;
-            try{
-                resultSetMetaData = resultSet.getMetaData();
-                while (resultSet.next()){
-                    Vector tmp = new Vector();
-                    for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++)
-                        tmp.add(resultSet.getString(i));
-                    strings3.add(tmp);
-                }
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-
-            comboBox3 = new JComboBox(strings3);
 
             JPanel fullNamePanel = new JPanel();
             fullNamePanel.add(fullNameLabel);
@@ -533,9 +634,66 @@ public class addRecordsToTable extends JFrame {
             carriagePanel.add(carriageLabel);
             carriagePanel.add(comboBox2);
 
-            JPanel medicalPanel = new JPanel();
-            medicalPanel.add(medicalLabel);
-            medicalPanel.add(comboBox3);
+            JLabel genLabel;
+            JPanel genPanel = new JPanel();
+            switch (type){
+                case "buroworkers": {
+                    resultBox1 = new JCheckBox("стрессоустойчивость");
+                    genPanel.add(resultBox1);
+                } break;
+                case "cashiers": {
+                    resultBox1 = new JCheckBox("владение английским языком");
+                    genPanel.add(resultBox1);
+                } break;
+                case "dispetchers": {
+                    genLabel = new JLabel("количество рабочих часов в неделю");
+                    numberField3 = new JFormattedTextField(numberFormat);
+                    numberField3.setValue(new Integer(0));
+                    numberField3.setColumns(5);
+                    genPanel.add(genLabel);
+                    genPanel.add(numberField3);
+                } break;
+                case "pilots": {
+                    genLabel = new JLabel("Выберите номер мед. осмотра пилота:");
+                    select = "SELECT med_id FROM medical";
+                    resultSet = selectFromTable(conn, select);
+                    strings3 = new Vector();
+                    String noneStr = "none";
+                    Vector noneVec = new Vector();
+                    noneVec.add(noneStr);
+                    strings3.add(noneVec);
+                    resultSetMetaData = null;
+                    try{
+                        resultSetMetaData = resultSet.getMetaData();
+                        while (resultSet.next()){
+                            Vector tmp = new Vector();
+                            for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++)
+                                tmp.add(resultSet.getString(i));
+                            strings3.add(tmp);
+                        }
+                    } catch (SQLException exception) {
+                        exception.printStackTrace();
+                    }
+                    comboBox3 = new JComboBox(strings3);
+
+                    genPanel.add(genLabel);
+                    genPanel.add(comboBox3);
+                } break;
+                case "securities": {
+                    resultBox1 = new JCheckBox("бывший военный");
+                    countCheckBoxes = 1;
+                    genPanel.add(resultBox1);
+                } break;
+                case "tehworkers": {
+                    resultBox1 = new JCheckBox("высшее образование");
+                    countCheckBoxes = 1;
+                    genPanel.add(resultBox1);
+                } break;
+            }
+
+            resultBox2 = new JCheckBox("менеджер");
+            JPanel managerPanel = new JPanel();
+            managerPanel.add(resultBox2);
 
             addPanel.add(fullNamePanel);
             addPanel.add(fullNameTextPanel);
@@ -543,38 +701,130 @@ public class addRecordsToTable extends JFrame {
             addPanel.add(genderPanel);
             addPanel.add(childPanel);
             addPanel.add(carriagePanel);
-            addPanel.add(medicalPanel);
+            addPanel.add(genPanel);
+            addPanel.add(managerPanel);
         } else {
             String lastname = textField1.getText();
             String firstname = textField2.getText();
             String middlename = textField3.getText();
-            checkText(lastname, "Введите фамилию...");
-            checkText(firstname, "Введите имя...");
-            if (error == 1)
-                System.out.println("error");            //окно ошибки
+
             String age = numberField1.getValue().toString();
             String gender = comboBox1.getSelectedItem().toString();
             String[] genderID = gender.split(" ");
             String child = numberField2.getValue().toString();
             String carriage = comboBox2.getSelectedItem().toString();
             String[] carriageID = carriage.split(" ");
-            String medical = comboBox3.getSelectedItem().toString();
-            String[] medicalID = medical.split(" ");
 
-            String insert = null;
-            if (medicalID[0].substring(1, medicalID[0].length() - 1).equals("none")){
-                if (middlename.equals("Введите отчество (при наличии)..."))
-                    insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_age, gen_id, worker_child_count, car_id) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ")";
-                else
-                    insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ")";
-            } else {
-                if (middlename.equals("Введите отчество (при наличии)..."))
-                    insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + medicalID[0].substring(1, medicalID[0].length()- 1) + ")";
-                else
-                    insert = "INSERT INTO workers(worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, worker_child_count, car_id, med_id) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + medicalID[0].substring(1, medicalID[0].length()- 1) + ")";
+            boolean isManager = resultBox2.isSelected();
+            Integer manager;
+            if (isManager)
+                manager = 1;
+            else
+                manager = 0;
+
+            String extraData = null;
+            String insertType = null;
+            String insertGen = null;
+            switch (type){
+                case "buroworkers": {
+                    boolean result = resultBox1.isSelected();
+                    Integer res;
+                    if (result)
+                        res = 1;
+                    else
+                        res = 0;
+                    extraData = res.toString();
+                    if (middlename.equals("Введите отчество (при наличии)...")) {
+                        insertType = "INSERT INTO buroworkers(buroworker_lastname, buroworker_firstname, buroworker_age, gen_id, buroworker_child_count, car_id, stress_resistance, is_manager) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "buroworkers") + ", '" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    } else {
+                        insertType = "INSERT INTO buroworkers(buroworker_lastname, buroworker_firstname, buroworker_middlename, buroworker_age, gen_id, buroworker_child_count, car_id, stress_resistance, is_manager) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "buroworkers") + ", '" + lastname + "', '" + firstname + "', '" + middlename + "',  " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    }
+                }break;
+                case "cashiers": {
+                    boolean result = resultBox1.isSelected();
+                    Integer res;
+                    if (result)
+                        res = 1;
+                    else
+                        res = 0;
+                    extraData = res.toString();
+                    if (middlename.equals("Введите отчество (при наличии)...")) {
+                        insertType = "INSERT INTO cashiers(cashier_lastname, cashier_firstname, cashier_age, gen_id, cashier_child_count, car_id, en_lang, is_manager) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "cashiers") + ", '" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    } else {
+                        insertType = "INSERT INTO cashiers(cashier_lastname, cashier_firstname, cashier_middlename, cashier_age, gen_id, cashier_child_count, car_id, en_lang, is_manager) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "cashiers") + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    }
+                }break;
+                case "dispetchers": {
+                    extraData = numberField3.getValue().toString();
+                    if (middlename.equals("Введите отчество (при наличии)...")) {
+                        insertType = "INSERT INTO dispetchers(dispetcher_lastname, dispetcher_firstname, dispetcher_age, gen_id, dispetcher_child_count, car_id, working_hours_per_week, is_manager) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "dispetchers") + ", '" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    } else {
+                        insertType = "INSERT INTO dispetchers(dispetcher_lastname, dispetcher_firstname, dispetcher_middlename, dispetcher_age, gen_id, dispetcher_child_count, car_id, working_hours_per_week, is_manager) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "dispetchers") + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    }
+                } break;
+                case "pilots": {
+                    String medical = comboBox3.getSelectedItem().toString();
+                    String[] medicalID = medical.split(" ");
+                    extraData = medicalID[0].substring(1, medicalID[0].length()- 1);
+                    if (middlename.equals("Введите отчество (при наличии)...")) {
+                        insertType = "INSERT INTO pilots(pilot_lastname, pilot_firstname, pilot_age, gen_id, pilot_child_count, car_id, med_id, is_manager) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "pilots") + ", '" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    } else {
+                        insertType = "INSERT INTO pilots(pilot_lastname, pilot_firstname, pilot_middlename, pilot_age, gen_id, pilot_child_count, car_id, med_id, is_manager) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "pilots") + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    }
+                } break;
+                case "tehworkers": {
+                    boolean result = resultBox1.isSelected();
+                    Integer res;
+                    if (result)
+                        res = 1;
+                    else
+                        res = 0;
+                    extraData = res.toString();
+                    if (middlename.equals("Введите отчество (при наличии)...")) {
+                        insertType = "INSERT INTO tehworkers(tehworker_lastname, tehworker_firstname, tehworker_age, gen_id, tehworker_child_count, car_id, high_education, is_manager) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "tehworkers") + ", '" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    } else {
+                        insertType = "INSERT INTO tehworkers(tehworker_lastname, tehworker_firstname, tehworker_middlename, tehworker_age, gen_id, tehworker_child_count, car_id, high_education, is_manager) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "tehworkers") + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    }
+                } break;
+                case "securities":{
+                    boolean result = resultBox1.isSelected();
+                    Integer res;
+                    if (result)
+                        res = 1;
+                    else
+                        res = 0;
+                    extraData = res.toString();
+                    if (middlename.equals("Введите отчество (при наличии)...")) {
+                        insertType = "INSERT INTO securities(security_lastname, security_firstname, security_age, gen_id, security_child_count, car_id, is_army, is_manager) VALUES('" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "securities") + ", '" + lastname + "', '" + firstname + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    } else {
+                        insertType = "INSERT INTO securities(security_lastname, security_firstname, security_middlename, security_age, gen_id, security_child_count, car_id, is_army, is_manager) VALUES('" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + child + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + extraData + ", " + manager.toString() + ")";
+                        insertGen = "INSERT INTO workers(local_id, worker_lastname, worker_firstname, worker_middlename, worker_age, gen_id, car_id, is_manager) VALUES(" + getID(conn, "securities") + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', " + age + ", " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + manager.toString() + ")";
+                    }
+                }
             }
-            //System.out.println(insert);
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insertType);
+                insertIntoTable(conn, insertGen);
+                conn.commit();
+            } catch (SQLException exception){
+                try{
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void technicalInspectionTable(Connection conn){
@@ -650,7 +900,17 @@ public class addRecordsToTable extends JFrame {
 
             String insert = "INSERT INTO technicalInspection(ti_date, worker_id, deg_of_wear, ti_result) VALUES(TO_DATE('" + getDay(day) + "." + getMonthNum(month) + "." + year + "','dd.mm.yyyy'), " + workerID[0].substring(1, workerID[0].length() - 1) + ", " + degOfWear + ", " + res + ")";
             //System.out.println(insert);
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void planesTable(Connection conn){
@@ -777,7 +1037,17 @@ public class addRecordsToTable extends JFrame {
 
             String insert = "INSERT INTO planes(plane_type, ti_id, plane_passengers_max, airport_id, trip_count, repairing_count, plane_age) VALUES('" + planeType + "', " + tiID[0].substring(1, tiID[0].length() - 1) + ", " + passengers + ", " + airportID[0].substring(1, airportID[0].length() - 1) + ", " + trips + ", " + repairing + ", " + age + ")";
             //System.out.println(insert);
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void tripsTable(Connection conn){
@@ -793,8 +1063,6 @@ public class addRecordsToTable extends JFrame {
             comboBox1 = new JComboBox(strings1);
 
             JLabel dateDepart = new JLabel("Введите дату и время отлёта:");
-            String months[] = { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август",
-                    "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
             spinDay1 = new JSpinner(new SpinnerNumberModel(1, 1, 31, 1));
             spinMonth1 = new JSpinner(new SpinnerListModel(months));
             spinYear1 = new JSpinner(new SpinnerNumberModel(2021, 2021, 2100, 1));
@@ -903,30 +1171,20 @@ public class addRecordsToTable extends JFrame {
             }
             comboBox3 = new JComboBox(strings3);
 
-            JLabel purchasedTicketsLabel = new JLabel("Введите количество проданных билетов:");
+            JLabel purchasedTicketsLabel = new JLabel("Введите максимальное количество билетов:");
             NumberFormat numberFormat = NumberFormat.getNumberInstance();
             numberField1 = new JFormattedTextField(numberFormat);
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(4);
 
-            JLabel surfoldTicketsLabel = new JLabel("Введите минимально необходимое количество билетов:");
+            JLabel ticketCostLabel = new JLabel("Введите стоимость билета:");
             numberField2 = new JFormattedTextField(numberFormat);
             numberField2.setValue(new Integer(0));
             numberField2.setColumns(4);
 
-            JLabel reserveTicketsLabel = new JLabel("Введите количество забронированных билетов:");
-            numberField3 = new JFormattedTextField(numberFormat);
-            numberField3.setValue(new Integer(0));
-            numberField3.setColumns(4);
-
-            JLabel ticketCostLabel = new JLabel("Введите стоимость билета:");
-            numberField4 = new JFormattedTextField(numberFormat);
-            numberField4.setValue(new Integer(0));
-            numberField4.setColumns(4);
-
             JPanel planePanel = new JPanel();
             planePanel.add(plane);
-            plane.add(comboBox1);
+            planePanel.add(comboBox1);
 
             JPanel departDatePanel = new JPanel();
             departDatePanel.add(dateDepart);
@@ -968,17 +1226,9 @@ public class addRecordsToTable extends JFrame {
             purchasedTicketsPanel.add(purchasedTicketsLabel);
             purchasedTicketsPanel.add(numberField1);
 
-            JPanel surfoldTicketsPanel = new JPanel();
-            surfoldTicketsPanel.add(surfoldTicketsLabel);
-            surfoldTicketsPanel.add(numberField2);
-
-            JPanel reserveTicketsPanel = new JPanel();
-            reserveTicketsPanel.add(reserveTicketsLabel);
-            reserveTicketsPanel.add(numberField3);
-
             JPanel ticketsCostPanel = new JPanel();
             ticketsCostPanel.add(ticketCostLabel);
-            ticketsCostPanel.add(numberField4);
+            ticketsCostPanel.add(numberField2);
 
             addPanel.add(planePanel);
             addPanel.add(departDatePanel);
@@ -989,8 +1239,6 @@ public class addRecordsToTable extends JFrame {
             addPanel.add(tripPanel);
             addPanel.add(carriagePanel);
             addPanel.add(purchasedTicketsPanel);
-            addPanel.add(surfoldTicketsPanel);
-            addPanel.add(reserveTicketsPanel);
             addPanel.add(ticketsCostPanel);
         } else {
             String plane = comboBox1.getSelectedItem().toString();
@@ -1012,18 +1260,26 @@ public class addRecordsToTable extends JFrame {
             String[] tripTypeID = trip.split(" ");
             String carriage = comboBox3.getSelectedItem().toString();
             String[] carriageID = carriage.split(" ");
-            String purchased = numberField1.getValue().toString();
-            String surfold = numberField2.getValue().toString();
-            String reserve = numberField3.getValue().toString();
-            String cost = numberField4.getValue().toString();
+            String maxCount = numberField1.getValue().toString();
+            String cost = numberField2.getValue().toString();
 
             String insert = null;
             if (changePlace.equals("Введите место пересадки (если имеется)..."))
-                insert = "INSERT INTO trips(plane_id, depart_time, arrival_time, depart_place, arrival_place, trip_type_id, car_id, purchased_count_tickets, surfold_count_tickets, reserve_count_tickets, ticket_cost) VALUES(" + planeID[0].substring(1, planeID[0].length()- 1) + ", TO_DATE('" + getDay(dayDep) + "." + getMonthNum(monthDep) + "." + yearDep + " " + hourDep + ":" + minuteDep + ":00','dd.mm.yyyy hh24:mi:ss'), TO_DATE('" + getDay(dayArr) + "." + getMonthNum(monthArr) + "." + yearArr + " " +  hourArr+ ":" + minuteArr + ":00','dd.mm.yyyy hh24:mi:ss'), '" + departPlace + "', '" + arrivalPlace + "', " + tripTypeID[0].substring(1, tripTypeID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + purchased + ", " + surfold + ", " + reserve + ", " + cost + ")";
+                insert = "INSERT INTO trips(plane_id, depart_time, arrival_time, depart_place, arrival_place, trip_type_id, car_id, max_count_tickets, prodano_count_tickets, reserve_count_tickets, sdano_count_tickets, ticket_cost) VALUES(" + planeID[0].substring(1, planeID[0].length()- 1) + ", TO_DATE('" + getDay(dayDep) + "." + getMonthNum(monthDep) + "." + yearDep + " " + hourDep + ":" + minuteDep + ":00','dd.mm.yyyy hh24:mi:ss'), TO_DATE('" + getDay(dayArr) + "." + getMonthNum(monthArr) + "." + yearArr + " " +  hourArr+ ":" + minuteArr + ":00','dd.mm.yyyy hh24:mi:ss'), '" + departPlace + "', '" + arrivalPlace + "', " + tripTypeID[0].substring(1, tripTypeID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + maxCount + ", 0, 0, 0, " + cost + ")";
             else
-                insert = "INSERT INTO trips(plane_id, depart_time, arrival_time, depart_place, plane_change_place, arrival_place, trip_type_id, car_id, purchased_count_tickets, surfold_count_tickets, reserve_count_tickets, ticket_cost) VALUES(" + planeID[0].substring(1, planeID[0].length()- 1) + ", TO_DATE('" + getDay(dayDep) + "." + getMonthNum(monthDep) + "." + yearDep + " " + hourDep + ":" + minuteDep + ":00','dd.mm.yyyy hh24:mi:ss'), TO_DATE('" + getDay(dayArr) + "." + getMonthNum(monthArr) + "." + yearArr + " " +  hourArr+ ":" + minuteArr + ":00','dd.mm.yyyy hh24:mi:ss'), '" + departPlace + "', '" + changePlace + "', '" + arrivalPlace + "', " + tripTypeID[0].substring(1, tripTypeID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + purchased + ", " + surfold + ", " + reserve + ", " + cost + ")";
+                insert = "INSERT INTO trips(plane_id, depart_time, arrival_time, depart_place, plane_change_place, arrival_place, trip_type_id, car_id, max_count_tickets, prodano_count_tickets, reserve_count_tickets, sdano_count_tickets, ticket_cost) VALUES(" + planeID[0].substring(1, planeID[0].length()- 1) + ", TO_DATE('" + getDay(dayDep) + "." + getMonthNum(monthDep) + "." + yearDep + " " + hourDep + ":" + minuteDep + ":00','dd.mm.yyyy hh24:mi:ss'), TO_DATE('" + getDay(dayArr) + "." + getMonthNum(monthArr) + "." + yearArr + " " +  hourArr+ ":" + minuteArr + ":00','dd.mm.yyyy hh24:mi:ss'), '" + departPlace + "', '" + changePlace + "', '" + arrivalPlace + "', " + tripTypeID[0].substring(1, tripTypeID[0].length() - 1) + ", " + carriageID[0].substring(1, carriageID[0].length() - 1) + ", " + maxCount + ", 0, 0, 0, " + cost + ")";
             //System.out.println(insert);
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void timetableTable(Connection conn){
@@ -1074,7 +1330,17 @@ public class addRecordsToTable extends JFrame {
 
             String insert = "INSERT INTO timetable(trip_id, trip_status_id) VALUES (" + tripID[0].substring(1, tripID[0].length() - 1) + ", " + statusID[0].substring(1, statusID[0].length() - 1) + ")";
             //System.out.println(insert);
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void ticketsTable(Connection conn){
@@ -1161,8 +1427,60 @@ public class addRecordsToTable extends JFrame {
             String[] aviacompanyID = aviacompany.split(" ");
 
             String insert = "INSERT INTO tickets(trip_id, ticket_seat_num, ticket_class_id, aviacomp_id) VALUES (" + tripID[0].substring(1, tripID[0].length() - 1) + ", " + seatNum + ", " + ticketClassID[0].substring(1, ticketClassID[0].length() - 1) + ", " + aviacompanyID[0].substring(1, aviacompanyID[0].length() - 1) + ")";
-            //System.out.println(insert);
-            insertIntoTable(conn, insert);
+            String prodanoCountSelect = "SELECT prodano_count_tickets FROM trips WHERE(trip_id = " + tripID[0].substring(1, tripID[0].length() - 1) + ")";
+            String maxCountSelect = "SELECT max_count_tickets FROM trips WHERE(trip_id = " + tripID[0].substring(1, tripID[0].length() - 1) + ")";
+            try {
+                Integer prodanoCount = -1;
+                try {
+                    PreparedStatement preStatement = conn.prepareStatement(prodanoCountSelect);
+                    ResultSet result = preStatement.executeQuery();
+                    while (result.next()) {
+                        prodanoCount = result.getInt(1);
+                    }
+                    result.close();
+                    preStatement.close();
+                    conn.commit();
+                } catch (SQLException exception){
+                    try {
+                        conn.rollback();
+                    } catch (SQLException exception1){
+                        exception1.printStackTrace();
+                    }
+                    exception.printStackTrace();
+                }
+                Integer maxCount = -1;
+                try {
+                    PreparedStatement preStatement = conn.prepareStatement(maxCountSelect);
+                    ResultSet result = preStatement.executeQuery();
+                    while (result.next()) {
+                        maxCount = result.getInt(1);
+                    }
+                    result.close();
+                    preStatement.close();
+                    conn.commit();
+                } catch (SQLException exception){
+                    try {
+                        conn.rollback();
+                    } catch (SQLException exception1){
+                        exception1.printStackTrace();
+                    }
+                    exception.printStackTrace();
+                }
+                if (maxCount > prodanoCount) {
+                    insertIntoTable(conn, insert);
+                    prodanoCount++;
+                    String upd = "UPDATE trips SET prodano_count_tickets = " + prodanoCount.toString() + " WHERE(trip_id = " + tripID[0].substring(1, tripID[0].length() - 1) + ")";
+                    insertIntoTable(conn, upd);
+                    conn.commit();
+                }
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void reserveTicketsTable(Connection conn){
@@ -1220,8 +1538,59 @@ public class addRecordsToTable extends JFrame {
                 insert = "INSERT INTO reserveTickets(ticket_id, is_paid, paid_date) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", 1, TO_DATE('" + getDay(day) + "." + getMonthNum(month) + "." + year + "', 'dd.mm.yyyy'))";
             else
                 insert = "INSERT INTO reserveTickets(ticket_id, is_paid) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", 0)";
-            //System.out.println(insert);
-            insertIntoTable(conn, insert);
+
+            String tripIDSelect = "SELECT trip_id from tickets WHERE(ticket_id = " + ticketID[0].substring(1, ticketID[0].length() - 1) + ")";
+            try {
+                Integer tripID = -1;
+                try {
+                    PreparedStatement preStatement = conn.prepareStatement(tripIDSelect);
+                    ResultSet resultSet = preStatement.executeQuery();
+                    while (resultSet.next()) {
+                        tripID = resultSet.getInt(1);
+                    }
+                    resultSet.close();
+                    preStatement.close();
+                    conn.commit();
+                } catch (SQLException exception) {
+                    try {
+                        conn.rollback();
+                    } catch (SQLException exception1) {
+                        exception1.printStackTrace();
+                    }
+                    exception.printStackTrace();
+                }
+                String reserveCountSelect = "SELECT reserve_count_tickets FROM trips WHERE(trip_id = " + tripID.toString() + ")";
+                Integer reserveCount = -1;
+                try {
+                    PreparedStatement preStatement = conn.prepareStatement(reserveCountSelect);
+                    ResultSet resultSet = preStatement.executeQuery();
+                    while (resultSet.next()) {
+                        reserveCount = resultSet.getInt(1);
+                    }
+                    resultSet.close();
+                    preStatement.close();
+                    conn.commit();
+                } catch (SQLException exception){
+                    try {
+                        conn.rollback();
+                    } catch (SQLException exception1){
+                        exception1.printStackTrace();
+                    }
+                    exception.printStackTrace();
+                }
+                insertIntoTable(conn, insert);
+                reserveCount++;
+                String upd = "UPDATE trips SET reserve_count_tickets = " + reserveCount.toString() + " WHERE(trip_id = " + tripID.toString() + ")";
+                insertIntoTable(conn, upd);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
     private void passengersTable(Connection conn){
@@ -1431,7 +1800,17 @@ public class addRecordsToTable extends JFrame {
                     insert = "INSERT INTO passengers(ticket_id, passenger_lastname, passenger_firstname, passenger_middlename, passport_id, gen_id, passenger_age, passport_abroad_id, custom_inspection, luggage) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', '" + passportID + "', " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + age + ", '" + passportAbroadID + "', " + custom + ", " + lug + ")";
             }
             System.out.println(insert);
-            insertIntoTable(conn, insert);
+            try {
+                insertIntoTable(conn, insert);
+                conn.commit();
+            } catch (SQLException exception){
+                try {
+                    conn.rollback();
+                } catch (SQLException exception1){
+                    exception1.printStackTrace();
+                }
+                exception.printStackTrace();
+            }
         }
     }
 }

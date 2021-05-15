@@ -1,0 +1,1 @@
+CREATE OR REPLACE TRIGGER tr_inc_usersss BEFORE INSERT ON users_myusers FOR EACH ROW BEGIN SELECT seq_inc_usersss.NextVal INTO :new.USER_MYUSER_ID FROM dual; END;

@@ -81,7 +81,7 @@ public class lookOnTableView extends JFrame {
                 }
             } break;
             case cashier:{
-                if (tableName.equals("reserveTickets") || tableName.equals("tickets")){
+                if (tableName.equals("reserveTickets") || tableName.equals("tickets") || tableName.equals("passengers")){
                     addRecord = new JButton("Добавить запись");
                     deleteRecord = new JButton("Удалить запись");
                     editRecord = new JButton("Изменить запись");

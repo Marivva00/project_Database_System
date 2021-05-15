@@ -68,7 +68,7 @@ public class AuthorisationWindow extends JFrame {
         }
         if (error == 0) {
             setVisible(false);
-            SuccessConnectionInfoWindow success = new SuccessConnectionInfoWindow(conn);
+            new SuccessConnectionInfoWindow(conn);
         }
     }
 }

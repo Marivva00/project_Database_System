@@ -14,6 +14,6 @@ public class MyAuthorisation {
             System.out.println("Oracle JDBC Driver is not found");
             e.printStackTrace();
         }
-        AuthorisationWindow authorisationWindow = new AuthorisationWindow(conn);
+        new AuthorisationWindow(conn);
     }
 }

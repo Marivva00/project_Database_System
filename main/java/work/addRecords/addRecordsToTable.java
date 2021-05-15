@@ -1662,7 +1662,7 @@ public class addRecordsToTable extends JFrame {
                 }
             });
 
-            JLabel passportLabel = new JLabel("Введите номер паспорта пассажира:");
+            JLabel passportLabel = new JLabel("Введите номер паспорта пассажира (11 символов):");
             textField4 = new JTextField(20);
             textField4.setForeground(Color.LIGHT_GRAY);
             textField4.setText("Введите номер паспорта пассажира...");
@@ -1706,7 +1706,7 @@ public class addRecordsToTable extends JFrame {
             numberField1.setValue(new Integer(0));
             numberField1.setColumns(2);
 
-            JLabel passportAbroadLabel = new JLabel("Введите номер загран. пасспорта пассажира (если необходимо):");
+            JLabel passportAbroadLabel = new JLabel("Введите номер загран. пасспорта пассажира (если необходимо) (11 символов):");
             textField5 = new JTextField(20);
             textField5.setForeground(Color.LIGHT_GRAY);
             textField5.setText("Введите номер загран. пасспорта пассажира (если необходимо)...");
@@ -1799,7 +1799,7 @@ public class addRecordsToTable extends JFrame {
                 else
                     insert = "INSERT INTO passengers(ticket_id, passenger_lastname, passenger_firstname, passenger_middlename, passport_id, gen_id, passenger_age, passport_abroad_id, custom_inspection, luggage) VALUES(" + ticketID[0].substring(1, ticketID[0].length() - 1) + ", '" + lastname + "', '" + firstname + "', '" + middlename + "', '" + passportID + "', " + genderID[0].substring(1, genderID[0].length() - 1) + ", " + age + ", '" + passportAbroadID + "', " + custom + ", " + lug + ")";
             }
-            System.out.println(insert);
+            //System.out.println(insert);
             try {
                 insertIntoTable(conn, insert);
                 conn.commit();

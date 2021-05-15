@@ -10,7 +10,7 @@ import java.util.*;
 public class SuccessConnectionInfoWindow extends JFrame {
     private JLabel success;
     private JButton ok;
-    private static final String[] tableNames = {"gender.sql", "department.sql", "medical.sql", "aviacompany.sql",
+    private static final String[] tableNames = {"users.sql", "gender.sql", "department.sql", "medical.sql", "aviacompany.sql",
             "ticketClass.sql", "tripStatus.sql", "tripType.sql", "airport.sql",
             "carriage.sql", "workers.sql",
             "pilots.sql", "dispetchers.sql", "tehworkers.sql", "cashiers.sql", "securities.sql", "buroworkers.sql",
@@ -21,7 +21,7 @@ public class SuccessConnectionInfoWindow extends JFrame {
     public SuccessConnectionInfoWindow(Connection conn){
         super("Авторизация");
         setSize(400, 200);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         tableNamesList.addAll(Arrays.asList(tableNames));
@@ -41,7 +41,7 @@ public class SuccessConnectionInfoWindow extends JFrame {
             setVisible(false);
             createPartOfSystem(conn);
             new roleWindow(conn);
-            //new MainMenuWindow(conn);
+            //new neededToCreate(conn);
         });
 
         windowPanel.add(successPanel);

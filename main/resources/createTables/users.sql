@@ -1,0 +1,1 @@
+CREATE TABLE users_myusers(user_myuser_id NUMBER(10) PRIMARY KEY, name_my VARCHAR(15) UNIQUE, password_my VARCHAR(15), role_my VARCHAR(10))

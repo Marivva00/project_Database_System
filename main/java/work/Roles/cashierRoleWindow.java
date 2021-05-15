@@ -11,6 +11,7 @@ import java.util.Vector;
 public class cashierRoleWindow extends JFrame{
     private JButton tickets;
     private JButton reserveTickets;
+    private JButton addPassenger;
     private JButton requests;
     private JButton back;
 
@@ -22,6 +23,7 @@ public class cashierRoleWindow extends JFrame{
 
         tickets = new JButton("продать билет/вернуть билет");
         reserveTickets = new JButton("забронировать билет");
+        addPassenger = new JButton("добавить пассажира");
         requests = new JButton("запросы в информационной системе");
         back = new JButton("Назад");
 
@@ -31,6 +33,8 @@ public class cashierRoleWindow extends JFrame{
         ticketsPanel.add(tickets);
         JPanel reserveTicketsPanel = new JPanel();
         reserveTicketsPanel.add(reserveTickets);
+        JPanel passengerPanel = new JPanel();
+        passengerPanel.add(addPassenger);
         JPanel requestsPanel = new JPanel();
         requestsPanel.add(requests);
         JPanel backPanel = new JPanel();
@@ -41,6 +45,7 @@ public class cashierRoleWindow extends JFrame{
 
         mainPanel.add(ticketsPanel);
         mainPanel.add(reserveTicketsPanel);
+        mainPanel.add(passengerPanel);
         mainPanel.add(requestsPanel);
         mainPanel.add(backPanel);
 
@@ -55,6 +60,10 @@ public class cashierRoleWindow extends JFrame{
         reserveTickets.addActionListener((e)->{
             setVisible(false);
             new lookOnTableView(conn, 1, "reserveTickets", role.cashier);
+        });
+        addPassenger.addActionListener((e)->{
+            setVisible(false);
+            new lookOnTableView(conn, 1, "passengers", role.cashier);
         });
         requests.addActionListener((e)->{
             setVisible(false);

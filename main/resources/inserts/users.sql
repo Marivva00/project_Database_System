@@ -1,1 +1,1 @@
-INSERT INTO users_myusers(name_my, password_my, role_my) VALUES ('admin', 'admin', 'adminBD')
+INSERT INTO users_myusers(name_my, password_my, role_my) VALUES ('admin_bd', 'admin_bd', 'admin_bd')

@@ -13,7 +13,6 @@ public class cashierRoleWindow extends JFrame{
     private JButton reserveTickets;
     private JButton addPassenger;
     private JButton requests;
-    private JButton back;
 
     public cashierRoleWindow(Connection conn) {
         super("Действия кассира в информационной системе");
@@ -25,7 +24,6 @@ public class cashierRoleWindow extends JFrame{
         reserveTickets = new JButton("забронировать билет");
         addPassenger = new JButton("добавить пассажира");
         requests = new JButton("запросы в информационной системе");
-        back = new JButton("Назад");
 
         addActionListeners(conn);
 
@@ -37,8 +35,6 @@ public class cashierRoleWindow extends JFrame{
         passengerPanel.add(addPassenger);
         JPanel requestsPanel = new JPanel();
         requestsPanel.add(requests);
-        JPanel backPanel = new JPanel();
-        backPanel.add(back);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(5, 1));
@@ -47,7 +43,6 @@ public class cashierRoleWindow extends JFrame{
         mainPanel.add(reserveTicketsPanel);
         mainPanel.add(passengerPanel);
         mainPanel.add(requestsPanel);
-        mainPanel.add(backPanel);
 
         add(mainPanel);
         setVisible(true);
@@ -81,10 +76,6 @@ public class cashierRoleWindow extends JFrame{
             tmp3.add("Получить перечень и общее число свободных и забpониpованных мест на указанном pейсе, на опреденный день, по указанному маpшpуту, по цене, по вpемени вылета.");
             strings.add(tmp3);
             new requestsWindow(conn, role.cashier, strings);
-        });
-        back.addActionListener((e)->{
-            setVisible(false);
-            new roleWindow(conn);
         });
     }
 }

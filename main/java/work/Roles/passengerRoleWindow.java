@@ -12,7 +12,6 @@ import java.util.Vector;
 public class passengerRoleWindow extends JFrame {
     private JButton timetable;
     private JButton request;
-    private JButton back;
 
     public passengerRoleWindow(Connection conn){
         super("Действия пассажира в информационной системе");
@@ -22,7 +21,6 @@ public class passengerRoleWindow extends JFrame {
 
         timetable = new JButton("посмотреть расписание рейсов");
         request = new JButton("запросы в информационной системе");
-        back = new JButton("Назад");
 
         addActionListeners(conn);
 
@@ -30,15 +28,12 @@ public class passengerRoleWindow extends JFrame {
         timetablePanel.add(timetable);
         JPanel requestPanel = new JPanel();
         requestPanel.add(request);
-        JPanel backPanel = new JPanel();
-        backPanel.add(back);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(5, 1));
 
         mainPanel.add(timetablePanel);
         mainPanel.add(requestPanel);
-        mainPanel.add(backPanel);
 
         add(mainPanel);
         setVisible(true);
@@ -64,10 +59,6 @@ public class passengerRoleWindow extends JFrame {
             tmp3.add("Получить перечень и общее число задеpжанных pейсов полностью, по указанной пpичине, по указанному маpшpуту.");
             strings.add(tmp3);
             new requestsWindow(conn, role.passenger, strings);
-        });
-        back.addActionListener((e)->{
-            setVisible(false);
-            new roleWindow(conn);
         });
     }
 }

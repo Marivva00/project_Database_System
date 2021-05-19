@@ -13,7 +13,6 @@ public class adminRoleWindow extends JFrame {
     private JButton timetable;
     private JButton workers;
     private JButton requests;
-    private JButton back;
 
     public adminRoleWindow(Connection conn) {
         super("Действия администрации в информационной системе");
@@ -25,7 +24,6 @@ public class adminRoleWindow extends JFrame {
         timetable = new JButton("работа с расписанием");
         workers = new JButton("работа с работниками аэропорта");
         requests = new JButton("запросы в информационной системе");
-        back = new JButton("Назад");
 
         addActionListeners(conn);
 
@@ -37,8 +35,6 @@ public class adminRoleWindow extends JFrame {
         workersPanel.add(workers);
         JPanel requestsPanel = new JPanel();
         requestsPanel.add(requests);
-        JPanel backPanel = new JPanel();
-        backPanel.add(back);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(5, 1));
@@ -47,7 +43,6 @@ public class adminRoleWindow extends JFrame {
         mainPanel.add(timetablePanel);
         mainPanel.add(workersPanel);
         mainPanel.add(requestsPanel);
-        mainPanel.add(backPanel);
 
         add(mainPanel);
         setVisible(true);
@@ -81,10 +76,6 @@ public class adminRoleWindow extends JFrame {
             tmp3.add("Получить перечень и общее число пилотов, пpошедших медосмотp либо не пpошедших его в указанный год, по половому пpизнаку, возpасту.");
             strings.add(tmp3);
             new requestsWindow(conn, role.admin, strings);
-        });
-        back.addActionListener((e)->{
-            setVisible(false);
-            new roleWindow(conn);
         });
     }
 }

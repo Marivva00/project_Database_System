@@ -2,6 +2,7 @@ package work;
 
 import work.Roles.role;
 import work.Roles.roleWindow;
+import work.authorisation.usersCreate;
 import work.lookOnTable.lookOnTableView;
 import work.requests.requestsWindow;
 
@@ -31,7 +32,7 @@ public class MainMenuWindow extends JFrame {
     private JButton reserveTickets;
     private JButton passengers;
 
-    private JButton back;
+    private JButton addUser;
 
     private role userRole;
     public MainMenuWindow(Connection conn, role userRole){
@@ -63,7 +64,7 @@ public class MainMenuWindow extends JFrame {
         passengers = new JButton("Пассажиры");
         timetable = new JButton("Расписание рейсов");
 
-        back = new JButton("Назад");
+        addUser = new JButton("ДОБАВИТЬ НОВОГО ПОЛЬЗОВАТЕЛЯ");
 
         addActionListenersToButtons(conn);
 
@@ -106,8 +107,8 @@ public class MainMenuWindow extends JFrame {
         main.add(independent);
         main.add(info2);
         main.add(dependent);
-        back.setAlignmentX(Component.CENTER_ALIGNMENT);
-        main.add(back);
+        addUser.setAlignmentX(Component.CENTER_ALIGNMENT);
+        main.add(addUser);
 
         add(main);
         setVisible(true);
@@ -165,9 +166,9 @@ public class MainMenuWindow extends JFrame {
         passengers.addActionListener((e)->{
             action(conn, 1, "passengers");
         });
-        back.addActionListener((e)->{
+        addUser.addActionListener((e)->{
             setVisible(false);
-            new roleWindow(conn);
+            new usersCreate(conn, "Регистрация");
         });
     }
     private void action(Connection conn, Integer dep, String tableName){

@@ -1,6 +1,6 @@
 package work.authorisation;
 
-import work.MainMenuWindow;
+import work.GUI.MainMenuWindow;
 import work.Roles.role;
 
 import javax.swing.*;

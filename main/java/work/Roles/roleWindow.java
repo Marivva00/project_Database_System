@@ -1,6 +1,6 @@
 package work.Roles;
 
-import work.MainMenuWindow;
+import work.GUI.MainMenuWindow;
 
 import javax.swing.*;
 import java.awt.*;

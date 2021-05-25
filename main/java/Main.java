@@ -1,4 +1,3 @@
-import work.MainMenuWindow;
 import work.authorisation.MyAuthorisation;
 
 import java.sql.*;

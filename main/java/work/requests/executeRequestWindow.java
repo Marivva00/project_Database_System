@@ -1,5 +1,6 @@
 package work.requests;
 
+import work.Roles.passengerRoleWindow;
 import work.Roles.role;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ public class executeRequestWindow extends JFrame {
     private JLabel count;
 
     private role userRole;
-    public executeRequestWindow(Connection conn, String sql, role userRole, Vector strings){
+    public executeRequestWindow(Connection conn, String sql, role userRole, Vector strings, Integer num){
         super("Результат запроса");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +31,10 @@ public class executeRequestWindow extends JFrame {
         back = new JButton("Назад");
         back.addActionListener((e)->{
             setVisible(false);
-            new requestsWindow(conn, userRole, strings);
+            if (num == 3)
+                new passengerRoleWindow(conn);
+            else
+                new requestsWindow(conn, userRole, strings);
         });
 
         count = new JLabel("Количество записей: " + countRows);

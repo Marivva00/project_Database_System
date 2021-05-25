@@ -1,6 +1,7 @@
 package work.Roles;
 
-import work.lookOnTable.lookOnTableView;
+import work.authorisation.usersCreate;
+import work.GUI.lookOnTable.lookOnTableView;
 import work.requests.requestsWindow;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ public class adminRoleWindow extends JFrame {
     private JButton timetable;
     private JButton workers;
     private JButton requests;
+    private JButton logout;
 
     public adminRoleWindow(Connection conn) {
         super("Действия администрации в информационной системе");
@@ -24,7 +26,7 @@ public class adminRoleWindow extends JFrame {
         timetable = new JButton("работа с расписанием");
         workers = new JButton("работа с работниками аэропорта");
         requests = new JButton("запросы в информационной системе");
-
+        logout = new JButton("выйти из системы");
         addActionListeners(conn);
 
         JPanel tripsPanel = new JPanel();
@@ -35,6 +37,8 @@ public class adminRoleWindow extends JFrame {
         workersPanel.add(workers);
         JPanel requestsPanel = new JPanel();
         requestsPanel.add(requests);
+        JPanel logoutPanel = new JPanel();
+        logoutPanel.add(logout);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(5, 1));
@@ -43,6 +47,7 @@ public class adminRoleWindow extends JFrame {
         mainPanel.add(timetablePanel);
         mainPanel.add(workersPanel);
         mainPanel.add(requestsPanel);
+        mainPanel.add(logoutPanel);
 
         add(mainPanel);
         setVisible(true);
@@ -65,17 +70,21 @@ public class adminRoleWindow extends JFrame {
             Vector strings = new Vector();
             Vector tmp1 = new Vector();
             tmp1.add("1");
-            tmp1.add("Получить список и общее число всех pаботников аэpопоpта, начальников отделов, pаботников указанного отдела, половому пpизнаку, возpасту, пpизнаку наличия и количеству детей.");
+            tmp1.add("Получить список и общее число всех pаботников аэpопоpта, начальников отделов, по половому пpизнаку, возpасту.");
             strings.add(tmp1);
             Vector tmp2 = new Vector();
             tmp2.add("2");
-            tmp2.add("Получить перечень и общее число pаботников в бpигаде, по всем отделам, в указанном отделе, обслуживающих конкретный pейс, по возpасту.");
+            tmp2.add("Получить перечень и общее число pаботников в бpигаде, обслуживающих конкретный pейс.");
             strings.add(tmp2);
-            Vector tmp3 = new Vector();
-            tmp3.add("3");
-            tmp3.add("Получить перечень и общее число пилотов, пpошедших медосмотp либо не пpошедших его в указанный год, по половому пpизнаку, возpасту.");
-            strings.add(tmp3);
-            new requestsWindow(conn, role.admin, strings);
+            //Vector tmp3 = new Vector();
+            //tmp3.add("3");
+            //tmp3.add("Получить перечень и общее число пилотов, пpошедших медосмотp либо не пpошедших его в указанный год, по половому пpизнаку, возpасту.");
+            //strings.add(tmp3);
+            new requestsWindow(conn, role.adminBD, strings);
+        });
+        logout.addActionListener((e)->{
+            setVisible(false);
+            new usersCreate(conn, "Авторизация");
         });
     }
 }

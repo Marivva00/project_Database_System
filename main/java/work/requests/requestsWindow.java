@@ -1,6 +1,6 @@
 package work.requests;
 
-import work.MainMenuWindow;
+import work.GUI.MainMenuWindow;
 import work.Roles.*;
 
 import javax.swing.*;
@@ -36,7 +36,7 @@ public class requestsWindow extends JFrame {
         addActionListeners(conn, strings, userRole);
 
         getRequestsTable(strings);
-        fillRequestsMap();
+        //fillRequestsMap(userRole);
 
         table = new JTable(this.strings,columnNames);
 
@@ -53,11 +53,11 @@ public class requestsWindow extends JFrame {
         add(mainPanel);
         setVisible(true);
     }
-    private void fillRequestsMap(){
+    /*private void fillRequestsMap(role userRole){
         requests = new HashMap<>();
         requests.put(1, "WITH S1 AS ( SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, workers.worker_child_count, car_id, dep_name, workers.med_id FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)");
         requests.put(2, "WITH S1 AS (SELECT carriage.car_id, department.dep_name FROM carriage RIGHT JOIN department USING (dep_id) WHERE (dep_id BETWEEN 7 AND 12)) SELECT workers.worker_id, workers.worker_lastname, workers.worker_firstname, workers.worker_middlename, workers.worker_age, gender.gen_name, workers.worker_child_count, car_id, dep_name, workers.med_id FROM workers RIGHT JOIN S1 USING (car_id) JOIN gender USING (gen_id)");
-    }
+    }*/
     private void addActionListeners(Connection conn, Vector strings, role userRole){
         back.addActionListener((e)->{
             setVisible(false);
@@ -75,7 +75,9 @@ public class requestsWindow extends JFrame {
         });
         go.addActionListener((e)->{
             setVisible(false);
-            goRequest(conn, strings);
+            String recordNum = table.getValueAt(table.getSelectedRow(), 0).toString();
+            Integer requestNum = Integer.parseInt(recordNum);
+            new getInfoAboutRequest(conn, userRole, strings, requestNum);
         });
     }
     private void getRequestsTable(Vector strings){
@@ -87,11 +89,5 @@ public class requestsWindow extends JFrame {
 
         this.strings = strings;
     }
-    private void goRequest(Connection conn, Vector strings){
-        String recordNum = table.getValueAt(table.getSelectedRow(), 0).toString();
-        Integer requestNum = Integer.parseInt(recordNum);
 
-        String request = requests.get(requestNum);
-        new executeRequestWindow(conn, request, userRole, strings);
-    }
 }

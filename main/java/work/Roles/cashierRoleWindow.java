@@ -1,6 +1,7 @@
 package work.Roles;
 
-import work.lookOnTable.lookOnTableView;
+import work.authorisation.usersCreate;
+import work.GUI.lookOnTable.lookOnTableView;
 import work.requests.requestsWindow;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ public class cashierRoleWindow extends JFrame{
     private JButton reserveTickets;
     private JButton addPassenger;
     private JButton requests;
+    private JButton logout;
 
     public cashierRoleWindow(Connection conn) {
         super("Действия кассира в информационной системе");
@@ -24,7 +26,7 @@ public class cashierRoleWindow extends JFrame{
         reserveTickets = new JButton("забронировать билет");
         addPassenger = new JButton("добавить пассажира");
         requests = new JButton("запросы в информационной системе");
-
+        logout = new JButton("выйти из системы");
         addActionListeners(conn);
 
         JPanel ticketsPanel = new JPanel();
@@ -35,6 +37,8 @@ public class cashierRoleWindow extends JFrame{
         passengerPanel.add(addPassenger);
         JPanel requestsPanel = new JPanel();
         requestsPanel.add(requests);
+        JPanel logoutPanel = new JPanel();
+        logoutPanel.add(logout);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(5, 1));
@@ -43,6 +47,7 @@ public class cashierRoleWindow extends JFrame{
         mainPanel.add(reserveTicketsPanel);
         mainPanel.add(passengerPanel);
         mainPanel.add(requestsPanel);
+        mainPanel.add(logoutPanel);
 
         add(mainPanel);
         setVisible(true);
@@ -69,13 +74,17 @@ public class cashierRoleWindow extends JFrame{
             strings.add(tmp1);
             Vector tmp2 = new Vector();
             tmp2.add("2");
-            tmp2.add("Получить перечень и общее число пассажиpов на данном pейсе, улетевших в указанный день, улетевших за гpаницу в указанный день, по пpизнаку сдачи вещей в багажное отделение, по половому пpизнаку, по возpасту.");
+            tmp2.add("Получить перечень и общее число пассажиpов на данном pейсе, улетевших за гpаницу, по пpизнаку сдачи вещей в багажное отделение, по половому пpизнаку, по возpасту.");
             strings.add(tmp2);
-            Vector tmp3 = new Vector();
-            tmp3.add("3");
-            tmp3.add("Получить перечень и общее число свободных и забpониpованных мест на указанном pейсе, на опреденный день, по указанному маpшpуту, по цене, по вpемени вылета.");
-            strings.add(tmp3);
+            //Vector tmp3 = new Vector();
+            //tmp3.add("3");
+            //tmp3.add("Получить перечень и общее число свободных и забpониpованных мест на указанном pейсе, на опреденный день, по указанному маpшpуту, по цене, по вpемени вылета.");
+            //strings.add(tmp3);
             new requestsWindow(conn, role.cashier, strings);
+        });
+        logout.addActionListener((e)->{
+            setVisible(false);
+            new usersCreate(conn, "Авторизация");
         });
     }
 }

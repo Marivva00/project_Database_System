@@ -1,6 +1,6 @@
 package work.authorisation;
 
-import work.MainMenuWindow;
+import work.GUI.MainMenuWindow;
 import work.Roles.*;
 
 import javax.swing.*;
@@ -20,13 +20,16 @@ public class messageWindow extends JFrame {
         ok = new JButton("Продолжить...");
         ok.addActionListener((e)->{
             setVisible(false);
-            switch (role){
-                case "admin_bd": new MainMenuWindow(conn, work.Roles.role.adminBD); break;
-                case "admin_hr": new adminRoleWindow(conn); break;
-                case "cashier_r": new cashierRoleWindow(conn); break;
-                case "technic": new technicRoleWindow(conn); break;
-                case "passenger": new passengerRoleWindow(conn); break;
-            }
+            if (message.equals("Авторизация прошла успешно")){
+                switch (role){
+                    case "admin_bd": new MainMenuWindow(conn, work.Roles.role.adminBD); break;
+                    case "admin_hr": new adminRoleWindow(conn); break;
+                    case "cashier_r": new cashierRoleWindow(conn); break;
+                    case "technic": new technicRoleWindow(conn); break;
+                    case "passenger": new passengerRoleWindow(conn); break;
+                }
+            } else
+                new MainMenuWindow(conn, work.Roles.role.adminBD);
         });
 
         JPanel infoPanel = new JPanel();
